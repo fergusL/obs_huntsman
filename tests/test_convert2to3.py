@@ -82,6 +82,13 @@ class ConvertGen2To3TestCase(convert_tests.ConvertGen2To3TestCase,
         self.instrumentClass = "lsst.obs.subaru.gen3.hsc.HyperSuprimeCam"
         self.config = os.path.join(os.path.abspath(os.path.dirname(__file__)),
                                    "config", "convert2to3Config.py")
+
+        self.biases = [{'detector': 50, 'calibration_label': f'gen2/bias_2013-11-03_050',
+                        'instrument': 'HSC'}]
+        self.flats = [{'detector': 50, 'calibration_label': f'gen2/flat_2013-11-03_050_HSC-I',
+                       'instrument': 'HSC', 'physical_filter': 'HSC-I'}]
+        self.darks = [{'detector': 50, 'calibration_label': f'gen2/dark_2013-11-03_050',
+                       'instrument': 'HSC'}]
         super().setUp()
 
 
