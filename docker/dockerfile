@@ -1,0 +1,39 @@
+FROM lsstsqre/centos:7-stack-lsst_distrib-v19_0_0
+USER root
+ENV LSST_HOME /opt/lsst/software/stack
+ENV STACK $LSST_HOME/stack/current/Linux64
+
+#Install git-LFS
+RUN export GITLFS=git-lfs-linux-amd64-v2.10.0.tar.gz && \
+  cd $LSST_HOME/_build && \
+  wget https://github.com/git-lfs/git-lfs/releases/download/v2.10.0/$GITLFS && \
+  tar -zxf $GITLFS && \
+  ./install.sh && \
+  rm install.sh && \
+  rm -rf $GITLFS
+
+#Get git-LFS setup for LSST (https://pipelines.lsst.io/v/DM-11077/install/git-lfs.html)
+RUN echo "[credential \"https://lsst-sqre-prod-git-lfs.s3-us-west-2.amazonaws.com\"]" >> ~/.gitconfig && \
+  echo -e "\thelper=store" >> ~/.gitconfig && \
+  echo "[credential \"https://s3.lsst.codes\"]" >> ~/.gitconfig && \
+  echo -e "\thelper=store" >> ~/.gitconfig && \
+  touch ~/.git-credentials && \
+  echo "https://:@lsst-sqre-prod-git-lfs.s3-us-west-2.amazonaws.com" >> ~/.git-credentials && \
+  echo "https://:@s3.lsst.codes" >> ~/.git-credentials
+
+#Make a directory for Butler to store the test data
+RUN cd $LSST_HOME && \
+  mkdir DATA && \
+  echo "lsst.obs.huntsman.HuntsmanMapper" > DATA/_mapper
+
+#Make directory for Hunstman obs packge
+RUN mkdir -p $STACK/obs_huntsman
+
+#Update ~/.bashrc
+RUN echo -e "\n#LSST setup" >> ~/.bashrc && \
+  echo ". /opt/lsst/software/stack/loadLSST.bash"  >> ~/.bashrc && \
+  echo "setup obs_huntsman v1"  >> ~/.bashrc
+
+CMD ["sh", "-c", ". /opt/lsst/software/stack/loadLSST.bash && eups declare obs_huntsman v1 -r $STACK/obs_huntsman && /bin/bash"]
+
+#ingestImages.py DATA testdata_ci_hsc/raw/*.fits --mode=link
