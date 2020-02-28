@@ -29,11 +29,7 @@ RUN cd $LSST_HOME && \
 #Make directory for Hunstman obs packge
 RUN mkdir -p $STACK/obs_huntsman
 
-#Update ~/.bashrc
-RUN echo -e "\n#LSST setup" >> ~/.bashrc && \
-  echo ". /opt/lsst/software/stack/loadLSST.bash"  >> ~/.bashrc && \
-  echo "setup obs_huntsman v1"  >> ~/.bashrc
+ADD startup.sh .
+CMD ["sh", "./startup.sh"]
 
-CMD ["sh", "-c", ". /opt/lsst/software/stack/loadLSST.bash && eups declare obs_huntsman v1 -r $STACK/obs_huntsman && /bin/bash"]
-
-#ingestImages.py DATA testdata_ci_hsc/raw/*.fits --mode=link
+#ingestImages.py DATA testdata/*.fits --mode=link
