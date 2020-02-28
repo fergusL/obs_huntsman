@@ -1,0 +1,9 @@
+version: '3'
+services:
+  lsst_stack:
+    image: huntsmanarray/lsst:latest
+    user: root
+    stdin_open: true
+    tty: true
+    volumes:
+      - "$OBS_HUNTSMAN:/opt/lsst/software/stack/stack/current/Linux64/obs_huntsman"
