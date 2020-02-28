@@ -14,4 +14,4 @@ jobs:
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build --tag huntsmanarray/device_startup:latest \
             --output "type=image,push=true" \
-            --file docker/device_startup.docker .
+            --file docker/dockerfile .
