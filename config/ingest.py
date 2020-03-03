@@ -1,5 +1,5 @@
-from lsst.obs.subaru.ingest import HscParseTask
-config.parse.retarget(HscParseTask)
+from lsst.obs.huntsman.ingest import HuntsmanParseTask
+config.parse.retarget(HuntsmanParseTask)
 
 config.parse.translation = {'proposal': 'PROP-ID',
                             'dataType': 'DATA-TYP',

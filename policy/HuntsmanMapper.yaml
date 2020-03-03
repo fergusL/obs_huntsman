@@ -1,6 +1,6 @@
 needCalibRegistry: true
 
-camera: ../hsc/camera
+camera: ../huntsman/camera
 
 skytiles:
   resolutionPix: 700
@@ -29,7 +29,7 @@ defaultSubLevels:
 
 exposures:
   raw:
-    template: '%(field)s/%(dateObs)s/%(pointing)05d/%(filter)s/HSC-%(visit)07d-%(ccd)03d.fits'
+    template: '%(field)s/%(dateObs)s/%(pointing)05d/%(filter)s/huntsman-%(visit)07d-%(ccd)03d.fits'
   postISRCCD:
     template: postISRCCD/v%(visit)07d-f%(filter)s/c%(ccd)03d.fits
   postISRCCD_uninterpolated:
@@ -69,10 +69,10 @@ exposures:
     - raw
     - raw_visit
     template: jointcal-results/%(tract)04d/fcr-%(visit)07d-%(ccd)03d.fits
-  # the following is to accommodate reading in HSC stack persisted files:
-  wcs_hsc:
+  # the following is to accommodate reading in huntsman stack persisted files:
+  wcs_huntsman:
     template: '%(pointing)05d/%(filter)s/corr/%(tract)04d/wcs-%(visit)07d-%(ccd)03d.fits'
-  fcr_hsc:
+  fcr_huntsman:
     level: Ccd
     persistable: ExposureI
     python: lsst.afw.image.ExposureI
@@ -470,7 +470,7 @@ datasets:
     - raw
     - raw_visit
     template: stack/%(stack)05d/processStack_metadata/%(patch)08d%(filter)s.yaml
-  deepCoadd_calexp_hsc:
+  deepCoadd_calexp_huntsman:
     level: None
     persistable: ExposureF
     python: lsst.afw.image.ExposureF
@@ -611,7 +611,7 @@ datasets:
     template: '%(pointing)05d/%(filter)s/qa/focus-%(visit)07d.png'
   processFocus_config:
     persistable: Config
-    python: hsc.pipe.tasks.focusTask.ProcessFocusConfig
+    python: huntsman.pipe.tasks.focusTask.ProcessFocusConfig
     storage: ConfigStorage
     tables:
     - raw
@@ -633,7 +633,7 @@ datasets:
     template: '%(pointing)05d/%(filter)s/qa/focusSweep-%(visit)07d.png'
   processFocusSweep_config:
     persistable: Config
-    python: hsc.pipe.tasks.focusTask.ProcessFocusSweepConfig
+    python: huntsman.pipe.tasks.focusTask.ProcessFocusSweepConfig
     storage: ConfigStorage
     tables:
     - raw
