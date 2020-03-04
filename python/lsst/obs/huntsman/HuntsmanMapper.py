@@ -16,11 +16,7 @@ class HuntsmanMapperBase(CameraMapper):
 
     def __init__(self, *args, **kwargs):
 
-        print('f')
-
         super(HuntsmanMapperBase, self).__init__(*args, **kwargs)
-
-        print('g')
 
         self._linearize = LinearizeSquared()
 
@@ -34,6 +30,7 @@ class HuntsmanMapperBase(CameraMapper):
                 'expTime': float,
                 'pointing': int,
                 }
+
         for name in ("raw",
                      # processCcd outputs
                      "postISRCCD", "calexp", "postISRCCD", "src", "icSrc", "icMatch",
@@ -302,11 +299,11 @@ class HuntsmanMapper(HuntsmanMapperBase):
     """
 
     def __init__(self, **kwargs):
-        print('a')
+
         policyFile = Policy.defaultPolicyFile("obs_huntsman", "HuntsmanMapper.yaml", "policy")
-        print('b')
+
         policy = Policy(policyFile)
-        print('c')
+
         if not kwargs.get('root', None):
             try:
                 kwargs['root'] = os.path.join(os.environ.get('SUPRIME_DATA_DIR'), 'SUPA')
@@ -314,9 +311,9 @@ class HuntsmanMapper(HuntsmanMapperBase):
                 raise RuntimeError("Either $SUPRIME_DATA_DIR or root= must be specified")
         if not kwargs.get('calibRoot', None):
             kwargs['calibRoot'] = os.path.join(kwargs['root'], 'CALIB')
-        print('d', policyFile)
+
         super(HuntsmanMapper, self).__init__(policy, os.path.dirname(policyFile), **kwargs)
-        print('e')
+
         self.defineFilters()
 
     def _extractDetectorName(self, dataId):
