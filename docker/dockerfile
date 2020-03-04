@@ -29,7 +29,7 @@ RUN cd $LSST_HOME && \
 #Make directory for Hunstman obs packge
 RUN mkdir -p $STACK/obs_huntsman
 
-ADD startup.sh .
+ADD ./docker/startup.sh .
 CMD ["sh", "./startup.sh"]
 
 #ingestImages.py DATA testdata/*.fits --mode=link
