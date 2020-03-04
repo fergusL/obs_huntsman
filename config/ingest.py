@@ -1,44 +1,57 @@
+"""
+This file tells ParseTask.getInfoFromMetadata how to obtain information from the
+FITS header. There are two options: One can specify a direct translation
+between a FITS header key and a LSST config key, OR you can specify a translator
+function (defined in lsst.obs_X.XParseTask) that converts FITS headers into
+appropriate Python objects. The latter option takes preference if both are
+specified.
+
+LSST stack does implicit conversion of types into those specified in
+config.register.columns, so make sure they are correct.
+
+Combinations of the columns specified in config.register.unique must be unique
+among files.
+"""
 from lsst.obs.huntsman.ingest import HuntsmanParseTask
+
 config.parse.retarget(HuntsmanParseTask)
 
-config.parse.translation = {'proposal': 'PROP-ID',
-                            'dataType': 'DATA-TYP',
-                            'expTime': 'EXPTIME',
-                            'ccd': 'DET-ID',
-                            'pa': 'INST-PA',
-                            'autoguider': 'T_AG',
-                            'ccdTemp': 'T_CCDTV',
-                            'config': 'T_CFGFIL',
-                            'frameId': 'FRAMEID',
-                            'expId': 'EXP-ID',
+# Specify mappings between FITS keys and LSST config keys
+config.parse.translation = {'expTime': 'EXPTIME',
+                            'ccd': 'CAM-ID',
+                            'ccdTemp': 'CCD-TEMP',
+                            'expId': 'IMAGEID',
                             'dateObs': 'DATE-OBS',
-                            'taiObs': 'DATE-OBS',
-                            }
-config.parse.defaults = {'ccdTemp': "0", # Added in commissioning run 3
-                         'autoguider': "0",
-                         }
-config.parse.translators = {'field': 'translate_field',
-                            'visit': 'translate_visit',
-                            'pointing': 'translate_pointing',
-                            'filter': 'translate_filter',
+                            'taiObs': 'DATE-OBS', #Not sure what this one is
+                            'filter': 'FILTER',
+                            'field': 'FIELD'
                             }
 
+# Specify default key value pairs which are used if FITS keyword is missing
+config.parse.defaults = {}
+
+# Specify functions to translate meta data to a python object
+# They are implemented in lsst.obs_X.XParseTask
+config.parse.translators = {'visit': 'translate_visit',
+                            'pointing': 'translate_pointing',
+                            'dataType': 'translate_dataType'
+                            }
+
+# Declare the columns that should be read
 config.register.columns = {'field': 'text',
                            'visit': 'int',
-                           'ccd': 'int',
+                           'ccd': 'text',
                            'pointing': 'int',
                            'filter': 'text',
-                           'proposal': 'text',
                            'dateObs': 'text',
-                           'taiObs': 'text',
                            'expTime': 'double',
-                           'pa': 'double',
-                           'autoguider': 'int',
-                           'ccdTemp': 'double',
-                           'config': 'text',
-                           'frameId': 'text',
                            'expId': 'text',
-                           'dataType': 'text',
+                           'dataType': 'text'
                            }
-config.register.unique = ['visit', 'ccd', ]
+
+# Define what key combination constitutes a unique observation
+config.register.unique = ['visit', 'ccd']
+
+# This is needed for some reason. Not sure what it does yet.
+# More info here: https://lsstcamdocs.readthedocs.io/en/latest/ingest.html
 config.register.visit = ['visit', 'field', 'filter', 'dateObs', 'taiObs']

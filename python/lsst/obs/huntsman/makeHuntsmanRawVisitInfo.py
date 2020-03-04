@@ -6,8 +6,8 @@ from lsst.obs.base import MakeRawVisitInfoViaObsInfo
 
 
 class MakeHuntsmanRawVisitInfo(MakeRawVisitInfoViaObsInfo):
-    """Make a VisitInfo from the FITS header of a Subaru SuprimeCam image
+    """Make a VisitInfo from the FITS header of a Huntsman image
     """
 
-    # Force HSC Translator.  Not required but being explicit does no harm.
-    #metadataTranslator = HuntsmanCamTranslator
+    def __init__(self, *args, **kwargs):
+        super().__init__()
