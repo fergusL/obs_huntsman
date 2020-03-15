@@ -6,16 +6,17 @@ import lsst.geom as geom
 from lsst.daf.persistence import ButlerLocation, Policy
 from lsst.obs.base import CameraMapper
 from lsst.ip.isr import LinearizeSquared
-from .makeSuprimecamRawVisitInfo import MakeSuprimecamRawVisitInfo
+from .makeHuntsmanRawVisitInfo import MakeHuntsmanRawVisitInfo
 
 
-class SuprimecamMapperBase(CameraMapper):
-    packageName = "obs_subaru"
+class HuntsmanMapperBase(CameraMapper):
+    packageName = "obs_huntsman"
 
-    MakeRawVisitInfoClass = MakeSuprimecamRawVisitInfo
+    MakeRawVisitInfoClass = MakeHuntsmanRawVisitInfo
 
     def __init__(self, *args, **kwargs):
-        super(SuprimecamMapperBase, self).__init__(*args, **kwargs)
+
+        super(HuntsmanMapperBase, self).__init__(*args, **kwargs)
 
         self._linearize = LinearizeSquared()
 
@@ -29,6 +30,7 @@ class SuprimecamMapperBase(CameraMapper):
                 'expTime': float,
                 'pointing': int,
                 }
+
         for name in ("raw",
                      # processCcd outputs
                      "postISRCCD", "calexp", "postISRCCD", "src", "icSrc", "icMatch",
@@ -54,7 +56,7 @@ class SuprimecamMapperBase(CameraMapper):
         """
         copyId = dataId.copy()
         copyId.pop("flags", None)
-        return super(SuprimecamMapperBase, self).map(datasetType, copyId, write=write)
+        return super(HuntsmanMapperBase, self).map(datasetType, copyId, write=write)
 
     def defineFilters(self):
         afwImageUtils.resetFilters()
@@ -288,17 +290,20 @@ class SuprimecamMapperBase(CameraMapper):
 
     @classmethod
     def getEupsProductName(cls):
-        return "obs_subaru"
+        return "obs_huntsman"
 
 
-class SuprimecamMapper(SuprimecamMapperBase):
+class HuntsmanMapper(HuntsmanMapperBase):
     """
-    Mapper for SuprimeCam with the newer Hamamatsu chips.
+    Mapper for Huntsman with the newer Hamamatsu chips.
     """
 
     def __init__(self, **kwargs):
-        policyFile = Policy.defaultPolicyFile("obs_subaru", "SuprimecamMapper.yaml", "policy")
+
+        policyFile = Policy.defaultPolicyFile("obs_huntsman", "HuntsmanMapper.yaml", "policy")
+
         policy = Policy(policyFile)
+
         if not kwargs.get('root', None):
             try:
                 kwargs['root'] = os.path.join(os.environ.get('SUPRIME_DATA_DIR'), 'SUPA')
@@ -306,7 +311,9 @@ class SuprimecamMapper(SuprimecamMapperBase):
                 raise RuntimeError("Either $SUPRIME_DATA_DIR or root= must be specified")
         if not kwargs.get('calibRoot', None):
             kwargs['calibRoot'] = os.path.join(kwargs['root'], 'CALIB')
-        super(SuprimecamMapper, self).__init__(policy, os.path.dirname(policyFile), **kwargs)
+
+        super(HuntsmanMapper, self).__init__(policy, os.path.dirname(policyFile), **kwargs)
+
         self.defineFilters()
 
     def _extractDetectorName(self, dataId):
@@ -326,40 +333,4 @@ class SuprimecamMapper(SuprimecamMapperBase):
 
     @classmethod
     def getCameraName(cls):
-        return "suprimecam"
-
-
-class SuprimecamMapperMit(SuprimecamMapperBase):
-    """
-    Mapper for SuprimeCam with the older, MIT chips.
-    """
-
-    def __init__(self, **kwargs):
-        policyFile = Policy.defaultPolicyFile("obs_subaru", "SuprimecamMapper.yaml", "policy")
-        policy = Policy(policyFile)
-        if not kwargs.get('root', None):
-            try:
-                kwargs['root'] = os.path.join(os.environ.get('SUPRIME_DATA_DIR'), 'SUPA')
-            except Exception:
-                raise RuntimeError("Either $SUPRIME_DATA_DIR or root= must be specified")
-        if not kwargs.get('calibRoot', None):
-            kwargs['calibRoot'] = os.path.join(kwargs['root'], 'CALIB_MIT')
-        policy.set("camera", "../suprimecam/mit_camera")
-        super(SuprimecamMapperMit, self).__init__(policy, os.path.dirname(policyFile), **kwargs)
-        self.defineFilters()
-
-    def _extractDetectorName(self, dataId):
-        return int("%(ccd)d" % dataId)
-
-    def getDataId(self, visit, ccdId):
-        """get dataId dict from visit and ccd identifier
-
-        @param visit 32 or 64-bit depending on camera
-        @param ccdId same as ccd.getId().getSerial()
-        """
-        dataId = {"visit": visit, "ccd": ccdId}
-        return dataId
-
-    @classmethod
-    def getCameraName(cls):
-        return "suprimecam-mit"
+        return "huntsman"

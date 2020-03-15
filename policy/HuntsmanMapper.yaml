@@ -1,6 +1,6 @@
 needCalibRegistry: true
 
-camera: ../hsc/camera
+camera: ../huntsman/camera
 
 skytiles:
   resolutionPix: 700
@@ -29,17 +29,17 @@ defaultSubLevels:
 
 exposures:
   raw:
-    template: '%(field)s/%(dateObs)s/%(pointing)05d/%(filter)s/HSC-%(visit)07d-%(ccd)03d.fits'
+    template: '%(field)s/%(dateObs)s/%(pointing)05d/%(filter)s/huntsman-%(visit)07d-%(ccd)s.fits'
   postISRCCD:
-    template: postISRCCD/v%(visit)07d-f%(filter)s/c%(ccd)03d.fits
+    template: postISRCCD/v%(visit)07d-f%(filter)s/c%(ccd)s.fits
   postISRCCD_uninterpolated:
-    template: postISRCCD/v%(visit)07d-f%(filter)s/c%(ccd)03d-preInterp.fits
+    template: postISRCCD/v%(visit)07d-f%(filter)s/c%(ccd)s-preInterp.fits
   icExp:
-    template: '%(pointing)05d/%(filter)s/corr/ICEXP-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/corr/ICEXP-%(visit)07d-%(ccd)s.fits'
   calexp:
-    template: '%(pointing)05d/%(filter)s/corr/CORR-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/corr/CORR-%(visit)07d-%(ccd)s.fits'
   fakes_calexp:
-   template: '%(pointing)05d/%(filter)s/tract%(tract)d/fakes_calexp-%(visit)07d-%(ccd)03d.fits'
+   template: '%(pointing)05d/%(filter)s/tract%(tract)d/fakes_calexp-%(visit)07d-%(ccd)s.fits'
   revexp:
     level: Ccd
     persistable: ExposureF
@@ -48,7 +48,7 @@ exposures:
     tables:
     - raw
     - raw_visit
-    template: '%(pointing)05d/%(filter)s/corr/CORW-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/corr/CORW-%(visit)07d-%(ccd)s.fits'
   expMetadata:
     level: Ccd
     persistable: ExposureI
@@ -59,7 +59,7 @@ exposures:
     - raw_visit
     template: '%(pointing)05d/%(filter)s/qa/metaQaExp-%(visit)07d-000.fits'
   wcs:  # deprecated in favor of jointcal_wcs; retained for reading old outputs
-    template: jointcal-results/%(tract)04d/wcs-%(visit)07d-%(ccd)03d.fits
+    template: jointcal-results/%(tract)04d/wcs-%(visit)07d-%(ccd)s.fits
   fcr:
     level: Ccd
     persistable: ExposureI
@@ -68,11 +68,11 @@ exposures:
     tables:
     - raw
     - raw_visit
-    template: jointcal-results/%(tract)04d/fcr-%(visit)07d-%(ccd)03d.fits
-  # the following is to accommodate reading in HSC stack persisted files:
-  wcs_hsc:
-    template: '%(pointing)05d/%(filter)s/corr/%(tract)04d/wcs-%(visit)07d-%(ccd)03d.fits'
-  fcr_hsc:
+    template: jointcal-results/%(tract)04d/fcr-%(visit)07d-%(ccd)s.fits
+  # the following is to accommodate reading in huntsman stack persisted files:
+  wcs_huntsman:
+    template: '%(pointing)05d/%(filter)s/corr/%(tract)04d/wcs-%(visit)07d-%(ccd)s.fits'
+  fcr_huntsman:
     level: Ccd
     persistable: ExposureI
     python: lsst.afw.image.ExposureI
@@ -80,7 +80,7 @@ exposures:
     tables:
     - raw
     - raw_visit
-    template: '%(pointing)05d/%(filter)s/corr/%(tract)04d/fcr-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/corr/%(tract)04d/fcr-%(visit)07d-%(ccd)s.fits'
   detj:
     columns:
     - pointing
@@ -94,7 +94,7 @@ exposures:
     tables:
     - raw
     - raw_visit
-    template: '%(pointing)05d/%(filter)s/corr/%(tract)04d/DETJ-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/corr/%(tract)04d/DETJ-%(visit)07d-%(ccd)s.fits'
   dcor:
     columns:
     - pointing
@@ -108,7 +108,7 @@ exposures:
     tables:
     - raw
     - raw_visit
-    template: '%(pointing)05d/%(filter)s/corr/%(tract)04d/DCOR-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/corr/%(tract)04d/DCOR-%(visit)07d-%(ccd)s.fits'
   calibrated_exp:
     columns:
     - pointing
@@ -121,7 +121,7 @@ exposures:
     tables:
     - raw
     - raw_visit
-    template: '%(pointing)05d/%(filter)s/corr/%(tract)04d/CALEXP-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/corr/%(tract)04d/CALEXP-%(visit)07d-%(ccd)s.fits'
   deepCoadd_directWarp:
     template: deepCoadd/%(filter)s/%(tract)d/%(patch)s/warp-%(filter)s-%(tract)d-%(patch)s-%(visit)d.fits
   deepCoadd_psfMatchedWarp:
@@ -151,14 +151,14 @@ exposures:
     python: lsst.afw.image.ExposureU
     storage: FitsStorage
     tables: raw
-    template: '%(pointing)05d/%(filter)s/output/CALIB-%(visit)07d-%(ccd)03d-%(tract)d.fits'
+    template: '%(pointing)05d/%(filter)s/output/CALIB-%(visit)07d-%(ccd)s-%(tract)d.fits'
   coaddTempExp:
     level: Skytile
     persistable: ExposureF
     python: lsst.afw.image.ExposureF
     storage: FitsStorage
     tables: raw
-    template: coaddTemp/%(filter)s/%(tract)d/TEMP-%(visit)07d-%(ccd)03d-%(patch)s.fits
+    template: coaddTemp/%(filter)s/%(tract)d/TEMP-%(visit)07d-%(ccd)s-%(patch)s.fits
   ossImage:
     level: Ccd
     persistable: ExposureF
@@ -167,7 +167,7 @@ exposures:
     tables:
     - raw
     - raw_visit
-    template: '%(pointing)05d/%(filter)s/thumbs/oss-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/thumbs/oss-%(visit)07d-%(ccd)s.fits'
   flattenedImage:
     level: Ccd
     persistable: ExposureF
@@ -176,11 +176,11 @@ exposures:
     tables:
     - raw
     - raw_visit
-    template: '%(pointing)05d/%(filter)s/thumbs/flattened-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/thumbs/flattened-%(visit)07d-%(ccd)s.fits'
   deepDiff_differenceExp:
-    template: 'deepDiff/%(pointing)05d/%(filter)s/DIFFEXP-%(visit)07d-%(ccd)03d.fits'
+    template: 'deepDiff/%(pointing)05d/%(filter)s/DIFFEXP-%(visit)07d-%(ccd)s.fits'
   deepDiff_matchedExp:
-    template: 'deepDiff/%(pointing)05d/%(filter)s/MATCHEDEXP-%(visit)07d-%(ccd)03d.fits'
+    template: 'deepDiff/%(pointing)05d/%(filter)s/MATCHEDEXP-%(visit)07d-%(ccd)s.fits'
 
 calibrations:
   defects:
@@ -195,7 +195,7 @@ calibrations:
     reference: raw_visit
     storage: FitsStorage
     tables: defects
-    template: defects/%(calibDate)s/defects-%(calibDate)s-%(ccd)03d.fits
+    template: defects/%(calibDate)s/defects-%(calibDate)s-%(ccd)s.fits
     validEndName: validEnd
     validRange: true
     validStartName: validStart
@@ -212,7 +212,7 @@ calibrations:
     reference: raw_visit
     storage: FitsStorage
     tables: bias
-    template: BIAS/%(calibDate)s/NONE/BIAS-%(calibDate)s-%(ccd)03d.fits
+    template: BIAS/%(calibDate)s/NONE/BIAS-%(calibDate)s-%(ccd)s.fits
     validEndName: validEnd
     validRange: true
     validStartName: validStart
@@ -229,7 +229,7 @@ calibrations:
     reference: raw_visit
     storage: FitsStorage
     tables: dark
-    template: DARK/%(calibDate)s/NONE/DARK-%(calibDate)s-%(ccd)03d.fits
+    template: DARK/%(calibDate)s/NONE/DARK-%(calibDate)s-%(ccd)s.fits
     validEndName: validEnd
     validRange: true
     validStartName: validStart
@@ -248,7 +248,7 @@ calibrations:
     reference: raw_visit
     storage: FitsStorage
     tables: flat
-    template: FLAT/%(calibDate)s/%(filter)s/FLAT-%(calibDate)s-%(filter)s-%(ccd)03d.fits
+    template: FLAT/%(calibDate)s/%(filter)s/FLAT-%(calibDate)s-%(filter)s-%(ccd)s.fits
     validEndName: validEnd
     validRange: true
     validStartName: validStart
@@ -267,7 +267,7 @@ calibrations:
     reference: raw_visit
     storage: FitsStorage
     tables: fringe
-    template: FRINGE/%(calibDate)s/%(filter)s/FRINGE-%(calibDate)s-%(filter)s-%(ccd)03d.fits
+    template: FRINGE/%(calibDate)s/%(filter)s/FRINGE-%(calibDate)s-%(filter)s-%(ccd)s.fits
     validEndName: validEnd
     validRange: true
     validStartName: validStart
@@ -303,10 +303,10 @@ calibrations:
     template: BFKERNEL/brighter_fatter_kernel.pkl
   yBackground:
     level: None
-    template: STRAY_LIGHT/ybackground-%(ccd)03d.fits
+    template: STRAY_LIGHT/ybackground-%(ccd)s.fits
 
   sky:
-    template: SKY/%(calibDate)s/%(filter)s/SKY-%(calibDate)s-%(filter)s-%(ccd)03d.fits
+    template: SKY/%(calibDate)s/%(filter)s/SKY-%(calibDate)s-%(filter)s-%(ccd)s.fits
     python: lsst.afw.image.ExposureF
     persistable: ExposureF
     storage: FitsStorage
@@ -334,17 +334,17 @@ calibrations:
 
 datasets:
   icExpBackground:
-    template: '%(pointing)05d/%(filter)s/corr/ICEXPBKGD-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/corr/ICEXPBKGD-%(visit)07d-%(ccd)s.fits'
   calexpBackground:
-    template: '%(pointing)05d/%(filter)s/corr/BKGD-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/corr/BKGD-%(visit)07d-%(ccd)s.fits'
   skyCorr:
-    template: '%(pointing)05d/%(filter)s/corr/skyCorr-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/corr/skyCorr-%(visit)07d-%(ccd)s.fits'
   calexp_camera:
     template: '%(pointing)05d/%(filter)s/corr/calexp-camera-%(visit)d.fits'
   src:
-    template: '%(pointing)05d/%(filter)s/output/SRC-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/output/SRC-%(visit)07d-%(ccd)s.fits'
   fakes_src:
-    template: '%(pointing)05d/%(filter)s/tract%(tract)d/fakes_src-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/tract%(tract)d/fakes_src-%(visit)07d-%(ccd)s.fits'
   calibrated_src:
     persistable: SourceCatalog
     python: lsst.afw.table.SourceCatalog
@@ -352,7 +352,7 @@ datasets:
     tables:
     - raw
     - raw_visit
-    template: '%(pointing)05d/%(filter)s/output/%(tract)04d/CALSRC-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/output/%(tract)04d/CALSRC-%(visit)07d-%(ccd)s.fits'
   transformed_src:
     persistable: SourceCatalog
     python: lsst.afw.table.BaseCatalog
@@ -360,7 +360,7 @@ datasets:
     tables:
     - raw
     - raw_visit
-    template: '%(pointing)05d/%(filter)s/output/TRSRC-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/output/TRSRC-%(visit)07d-%(ccd)s.fits'
   icMatch:
     persistable: BaseCatalog
     python: lsst.afw.table.BaseCatalog
@@ -368,30 +368,30 @@ datasets:
     tables:
     - raw
     - raw_visit
-    template: '%(pointing)05d/%(filter)s/output/MATCH-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/output/MATCH-%(visit)07d-%(ccd)s.fits'
   fakeSourceCat:
-    template: '%(pointing)05d/%(filter)s/corr/CORR-%(visit)07d-%(ccd)03d_fakeCat.parq'
+    template: '%(pointing)05d/%(filter)s/corr/CORR-%(visit)07d-%(ccd)s_fakeCat.parq'
 
   srcMatch:
-    template: '%(pointing)05d/%(filter)s/output/SRCMATCH-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/output/SRCMATCH-%(visit)07d-%(ccd)s.fits'
   srcMatchFull:
-    template: '%(pointing)05d/%(filter)s/output/SRCMATCHFULL-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/output/SRCMATCHFULL-%(visit)07d-%(ccd)s.fits'
   icSrc:
-    template: '%(pointing)05d/%(filter)s/output/ICSRC-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/output/ICSRC-%(visit)07d-%(ccd)s.fits'
   donutSrc:
-    template: '%(pointing)05d/%(filter)s/output/DONUTSRC-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/output/DONUTSRC-%(visit)07d-%(ccd)s.fits'
   photoCalib:  # deprecated in favor of jointcal_photoCalib; retained for reading old outputs
-    template: jointcal-results/%(tract)04d/photoCalib-%(visit)07d-%(ccd)03d.fits
+    template: jointcal-results/%(tract)04d/photoCalib-%(visit)07d-%(ccd)s.fits
   jointcal_wcs:  # astrometric calibration produced by jointcal/meas_mosaic
-    template: jointcal-results/%(filter)s/%(tract)04d/jointcal_wcs-%(visit)07d-%(ccd)03d.fits
+    template: jointcal-results/%(filter)s/%(tract)04d/jointcal_wcs-%(visit)07d-%(ccd)s.fits
   jointcal_photoCalib:  # photometric calibration produced by jointcal/meas_mosaic
-    template: jointcal-results/%(filter)s/%(tract)04d/jointcal_photoCalib-%(visit)07d-%(ccd)03d.fits
+    template: jointcal-results/%(filter)s/%(tract)04d/jointcal_photoCalib-%(visit)07d-%(ccd)s.fits
   fgcm_photoCalib:  # photometric calibration produced by fgcm
-    template: fgcm-results/%(filter)s/fgcm_photoCalib-%(visit)05d-%(ccd)03d.fits
+    template: fgcm-results/%(filter)s/fgcm_photoCalib-%(visit)05d-%(ccd)s.fits
   fgcm_tract_photoCalib:  # photometric calibration producted by fgcm (per tract)
-    template: fgcm-results/%(filter)s/%(tract)04d/fgcm_photoCalib-%(visit)05d-%(ccd)03d.fits
+    template: fgcm-results/%(filter)s/%(tract)04d/fgcm_photoCalib-%(visit)05d-%(ccd)s.fits
   transmission_sensor:   # wavelength-dependent throughput due to the sensor, in post-ISR CCD coordinates
-    template: 'transmission/sensor-%(ccd)03d.fits'
+    template: 'transmission/sensor-%(ccd)s.fits'
   transmission_atmosphere_fgcm:
     template: fgcm-results/transmission/atmosphere_%(visit)07d.fits
   transmission_atmosphere_fgcm_tract:
@@ -419,25 +419,25 @@ datasets:
     tables: raw_skytile
     template: deepCoadd-diff/%(filter)s/%(tract)d/%(patch)s/diffsrc-%(filter)s-%(tract)d-%(patch)s-%(visit)d.fits
   deepDiff_metadata:
-    template: '%(pointing)05d/%(filter)s/deepDiff_metadata/deepDiff_metadata-%(visit)07d-%(ccd)03d.yaml'
+    template: '%(pointing)05d/%(filter)s/deepDiff_metadata/deepDiff_metadata-%(visit)07d-%(ccd)s.yaml'
   deepDiff_diaSrc:
-    template: 'deepDiff/%(pointing)05d/%(filter)s/DIASRC-%(visit)07d-%(ccd)03d.fits'
+    template: 'deepDiff/%(pointing)05d/%(filter)s/DIASRC-%(visit)07d-%(ccd)s.fits'
   deepDiff_kernelSrc:
-    template: 'deepDiff/%(pointing)05d/%(filter)s/KERNELSRC-%(visit)07d-%(ccd)03d.fits'
+    template: 'deepDiff/%(pointing)05d/%(filter)s/KERNELSRC-%(visit)07d-%(ccd)s.fits'
   warppsf:
     persistable: Psf
     python: lsst.afw.detection.Psf
     storage: YamlStorage
     tables: raw_skytile
-    template: '%(pointing)05d/%(filter)s/warp/WARPPSF-%(visit)07d-%(ccd)03d.yaml'
+    template: '%(pointing)05d/%(filter)s/warp/WARPPSF-%(visit)07d-%(ccd)s.yaml'
   processCcd_metadata:
-    template: '%(pointing)05d/%(filter)s/processCcd_metadata/%(visit)07d-%(ccd)03d.yaml'
+    template: '%(pointing)05d/%(filter)s/processCcd_metadata/%(visit)07d-%(ccd)s.yaml'
   runIsr_metadata:
-    template: '%(pointing)05d/%(filter)s/isr_metadata/%(visit)07d-%(ccd)03d.yaml'
+    template: '%(pointing)05d/%(filter)s/isr_metadata/%(visit)07d-%(ccd)s.yaml'
   characterizeImage_metadata:
-    template: '%(pointing)05d/%(filter)s/characterizeImage_metadata/%(visit)07d-%(ccd)03d.yaml'
+    template: '%(pointing)05d/%(filter)s/characterizeImage_metadata/%(visit)07d-%(ccd)s.yaml'
   calibrate_metadata:
-    template: '%(pointing)05d/%(filter)s/calibrate_metadata/%(visit)07d-%(ccd)03d.yaml'
+    template: '%(pointing)05d/%(filter)s/calibrate_metadata/%(visit)07d-%(ccd)s.yaml'
   transformSrcMeasurement_metadata:
     persistable: PropertySet
     python: lsst.daf.base.PropertySet
@@ -445,7 +445,7 @@ datasets:
     tables:
     - raw
     - raw_visit
-    template: '%(pointing)05d/%(filter)s/transformSrcMeasurement_metadata/%(visit)07d-%(ccd)03d.yaml'
+    template: '%(pointing)05d/%(filter)s/transformSrcMeasurement_metadata/%(visit)07d-%(ccd)s.yaml'
   singleFrameDriver_metadata:
     persistable: PropertySet
     python: lsst.daf.base.PropertySet
@@ -470,7 +470,7 @@ datasets:
     - raw
     - raw_visit
     template: stack/%(stack)05d/processStack_metadata/%(patch)08d%(filter)s.yaml
-  deepCoadd_calexp_hsc:
+  deepCoadd_calexp_huntsman:
     level: None
     persistable: ExposureF
     python: lsst.afw.image.ExposureF
@@ -482,127 +482,127 @@ datasets:
   deepCoadd_calexp_background:
     template: deepCoadd-results/%(filter)s/%(tract)d/%(patch)s/det_bkgd-%(filter)s-%(tract)d-%(patch)s.fits
   forced_src:
-    template: '%(pointing)05d/%(filter)s/tract%(tract)d/FORCEDSRC-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/tract%(tract)d/FORCEDSRC-%(visit)07d-%(ccd)s.fits'
   forcedPhotCcd_metadata:
-    template: '%(pointing)05d/%(filter)s/tract%(tract)d/forcedPhotCcd_metadata/%(visit)07d-%(ccd)03d.yaml'
+    template: '%(pointing)05d/%(filter)s/tract%(tract)d/forcedPhotCcd_metadata/%(visit)07d-%(ccd)s.yaml'
   ossThumb:
-    template: '%(pointing)05d/%(filter)s/thumbs/oss-%(visit)07d-%(ccd)03d.png'
+    template: '%(pointing)05d/%(filter)s/thumbs/oss-%(visit)07d-%(ccd)s.png'
   flattenedThumb:
-    template: '%(pointing)05d/%(filter)s/thumbs/flattened-%(visit)07d-%(ccd)03d.png'
+    template: '%(pointing)05d/%(filter)s/thumbs/flattened-%(visit)07d-%(ccd)s.png'
   calexpThumb:
     persistable: None
     python: builtins.str
     storage: TextStorage
     tables: raw
-    template: '%(pointing)05d/%(filter)s/thumbs/corr-%(visit)07d-%(ccd)03d.png'
+    template: '%(pointing)05d/%(filter)s/thumbs/corr-%(visit)07d-%(ccd)s.png'
   plotMagHist:
     persistable: None
     python: builtins.str
     storage: TextStorage
     tables: raw
-    template: '%(pointing)05d/%(filter)s/qa/magHist-%(visit)07d-%(ccd)03d.png'
+    template: '%(pointing)05d/%(filter)s/qa/magHist-%(visit)07d-%(ccd)s.png'
   plotSeeingRough:
     persistable: None
     python: builtins.str
     storage: TextStorage
     tables: raw
-    template: '%(pointing)05d/%(filter)s/qa/seeingRough-%(visit)07d-%(ccd)03d.png'
+    template: '%(pointing)05d/%(filter)s/qa/seeingRough-%(visit)07d-%(ccd)s.png'
   plotSeeingRobust:
     persistable: None
     python: builtins.str
     storage: TextStorage
     tables: raw
-    template: '%(pointing)05d/%(filter)s/qa/seeingRobust-%(visit)07d-%(ccd)03d.png'
+    template: '%(pointing)05d/%(filter)s/qa/seeingRobust-%(visit)07d-%(ccd)s.png'
   plotSeeingMap:
     persistable: None
     python: builtins.str
     storage: TextStorage
     tables: raw
-    template: '%(pointing)05d/%(filter)s/qa/seeingMap-%(visit)07d-%(ccd)03d.png'
+    template: '%(pointing)05d/%(filter)s/qa/seeingMap-%(visit)07d-%(ccd)s.png'
   plotEllipseMap:
     persistable: None
     python: builtins.str
     storage: TextStorage
     tables: raw
-    template: '%(pointing)05d/%(filter)s/qa/ellipseMap-%(visit)07d-%(ccd)03d.png'
+    template: '%(pointing)05d/%(filter)s/qa/ellipseMap-%(visit)07d-%(ccd)s.png'
   plotEllipticityMap:
     persistable: None
     python: builtins.str
     storage: TextStorage
     tables: raw
-    template: '%(pointing)05d/%(filter)s/qa/ellipticityMap-%(visit)07d-%(ccd)03d.png'
+    template: '%(pointing)05d/%(filter)s/qa/ellipticityMap-%(visit)07d-%(ccd)s.png'
   plotFwhmGrid:
     persistable: None
     python: builtins.str
     storage: TextStorage
     tables: raw
-    template: '%(pointing)05d/%(filter)s/qa/fwhmGrid-%(visit)07d-%(ccd)03d.png'
+    template: '%(pointing)05d/%(filter)s/qa/fwhmGrid-%(visit)07d-%(ccd)s.png'
   plotEllipseGrid:
     persistable: None
     python: builtins.str
     storage: TextStorage
     tables: raw
-    template: '%(pointing)05d/%(filter)s/qa/ellipseGrid-%(visit)07d-%(ccd)03d.png'
+    template: '%(pointing)05d/%(filter)s/qa/ellipseGrid-%(visit)07d-%(ccd)s.png'
   plotEllipticityGrid:
     persistable: None
     python: builtins.str
     storage: TextStorage
     tables: raw
-    template: '%(pointing)05d/%(filter)s/qa/ellipticityGrid-%(visit)07d-%(ccd)03d.png'
+    template: '%(pointing)05d/%(filter)s/qa/ellipticityGrid-%(visit)07d-%(ccd)s.png'
   plotPsfSrcGrid:
     persistable: None
     python: builtins.str
     storage: TextStorage
     tables: raw
-    template: '%(pointing)05d/%(filter)s/qa/psfSrcGrid-%(visit)07d-%(ccd)03d.png'
+    template: '%(pointing)05d/%(filter)s/qa/psfSrcGrid-%(visit)07d-%(ccd)s.png'
   plotPsfModelGrid:
     persistable: None
     python: builtins.str
     storage: TextStorage
     tables: raw
-    template: '%(pointing)05d/%(filter)s/qa/psfModelGrid-%(visit)07d-%(ccd)03d.png'
+    template: '%(pointing)05d/%(filter)s/qa/psfModelGrid-%(visit)07d-%(ccd)s.png'
   fitsFwhmGrid:
     persistable: ImageF
     python: lsst.afw.image.ImageF
     storage: FitsStorage
     tables: raw
-    template: '%(pointing)05d/%(filter)s/qa/fwhmGrid-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/qa/fwhmGrid-%(visit)07d-%(ccd)s.fits'
   fitsEllipticityGrid:
     persistable: ImageF
     python: lsst.afw.image.ImageF
     storage: FitsStorage
     tables: raw
-    template: '%(pointing)05d/%(filter)s/qa/ellipticityGrid-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/qa/ellipticityGrid-%(visit)07d-%(ccd)s.fits'
   fitsEllPaGrid:
     persistable: ImageF
     python: lsst.afw.image.ImageF
     storage: FitsStorage
     tables: raw
-    template: '%(pointing)05d/%(filter)s/qa/ellPaGrid-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/qa/ellPaGrid-%(visit)07d-%(ccd)s.fits'
   fitsPsfSrcGrid:
     persistable: ImageF
     python: lsst.afw.image.ImageF
     storage: FitsStorage
     tables: raw
-    template: '%(pointing)05d/%(filter)s/qa/psfSrcGrid-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/qa/psfSrcGrid-%(visit)07d-%(ccd)s.fits'
   fitsPsfModelGrid:
     persistable: ImageF
     python: lsst.afw.image.ImageF
     storage: FitsStorage
     tables: raw
-    template: '%(pointing)05d/%(filter)s/qa/psfModelGrid-%(visit)07d-%(ccd)03d.fits'
+    template: '%(pointing)05d/%(filter)s/qa/psfModelGrid-%(visit)07d-%(ccd)s.fits'
   tableSeeingMap:
     persistable: None
     python: builtins.str
     storage: TextStorage
     tables: raw
-    template: '%(pointing)05d/%(filter)s/qa/seeingMap-%(visit)07d-%(ccd)03d.txt'
+    template: '%(pointing)05d/%(filter)s/qa/seeingMap-%(visit)07d-%(ccd)s.txt'
   tableSeeingGrid:
     persistable: None
     python: builtins.str
     storage: TextStorage
     tables: raw
-    template: '%(pointing)05d/%(filter)s/qa/seeingGrid-%(visit)07d-%(ccd)03d.txt'
+    template: '%(pointing)05d/%(filter)s/qa/seeingGrid-%(visit)07d-%(ccd)s.txt'
   focusPlot:
     persistable: None
     python: builtins.str
@@ -611,7 +611,7 @@ datasets:
     template: '%(pointing)05d/%(filter)s/qa/focus-%(visit)07d.png'
   processFocus_config:
     persistable: Config
-    python: hsc.pipe.tasks.focusTask.ProcessFocusConfig
+    python: huntsman.pipe.tasks.focusTask.ProcessFocusConfig
     storage: ConfigStorage
     tables:
     - raw
@@ -633,20 +633,20 @@ datasets:
     template: '%(pointing)05d/%(filter)s/qa/focusSweep-%(visit)07d.png'
   processFocusSweep_config:
     persistable: Config
-    python: hsc.pipe.tasks.focusTask.ProcessFocusSweepConfig
+    python: huntsman.pipe.tasks.focusTask.ProcessFocusSweepConfig
     storage: ConfigStorage
     tables:
     - raw
     - raw_visit
     template: config/processFocusSweep.py
   apPipe_metadata:
-    template: '%(pointing)05d/%(filter)s/apPipe_metadata/%(visit)07d-%(ccd)03d.yaml'
+    template: '%(pointing)05d/%(filter)s/apPipe_metadata/%(visit)07d-%(ccd)s.yaml'
   brighterFatterKernel:  # NB this is for the new cp_pipe generated kernels
-    template: calibrations/brighterFatterKernel-%(ccd)03d.pkl
+    template: calibrations/brighterFatterKernel-%(ccd)s.pkl
   brighterFatterGain:
-    template: calibrations/brighterFatterGain-%(ccd)03d.pkl
+    template: calibrations/brighterFatterGain-%(ccd)s.pkl
   plotBrighterFatterPtc:
-    template: plots/brighterFatterPtc-ccd-%(ccd)03d-amp-%(amp)s.png
+    template: plots/brighterFatterPtc-ccd-%(ccd)s-amp-%(amp)s.png
 
   # Plots for analysis QA
   plotCoadd:
