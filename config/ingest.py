@@ -44,6 +44,7 @@ config.register.columns = {'field': 'text',
                            'pointing': 'int',
                            'filter': 'text',
                            'dateObs': 'text',
+                           'taiObs': 'text',
                            'expTime': 'double',
                            'expId': 'text',
                            'dataType': 'text'
