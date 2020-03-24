@@ -13,14 +13,14 @@ adjust for processCcd. To keep things a little tidier, I like to split the
 import os.path
 from lsst.utils import getPackageDir
 
-#Grab the path to this config directory:
+#Grab the path to this config directory
 configDir = os.path.join(getPackageDir("obs_huntsman"), "config")
 
-#Load ISR configurations:
+#Load ISR configurations
 config.isr.load(os.path.join(configDir, "isr.py"))
 
-#Characterise:
-config.isr.load(os.path.join(configDir, "characterise.py"))
+#Characterise
+config.charImage.load(os.path.join(configDir, "characterise.py"))
 
 #Load Calibrate configurations
 config.doCalibrate = False

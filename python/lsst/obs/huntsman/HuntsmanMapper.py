@@ -45,9 +45,9 @@ class HuntsmanMapper(CameraMapper):
         '''
         pathId = self._transformId(dataId)
         visit = pathId['visit']
-        ccd = pathId['ccd']
+        ccd = int(pathId['ccd'])
         visit = int(visit)
-        return ccd + f'_{visit}'
+        return visit*64 + ccd
 
     def bypass_ccdExposureId(self, datasetType, pythonType, location, dataId):
         '''You need to tell the stack that it needs to refer to the above _computeCcdExposureId function.

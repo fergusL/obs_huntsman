@@ -8,7 +8,7 @@ exposures:
   raw:
     python: lsst.afw.image.DecoratedImageF
     persistable: DecoratedImageF
-    template: 'raw/%(dateObs)s/%(dataType)s-%(visit)04d-%(filter)s-%(ccd)s.fits'
+    template: 'raw/%(dateObs)s/%(dataType)s-%(visit)04d-%(filter)s-%(ccd)02d.fits'
 
 calibrations:
   add_bias_etc_here:
@@ -16,6 +16,6 @@ calibrations:
 
 datasets:
   processCcd_metadata:
-    template: 'processCcd_md/%(dateObs)s/processCcd_md-%(visit)04d-%(filter)s-%(ccd)s.boost'
+    template: 'processCcd_md/%(dateObs)s/processCcd_md-%(visit)04d-%(filter)s-%(ccd)02d.boost'
   icSrc:
-    template: 'sci-results/icSrc/%(dateObs)s/icSrc-%(visit)04d-%(filter)s-%(ccd)s.fits'
+    template: 'sci-results/icSrc/%(dateObs)s/icSrc-%(visit)04d-%(filter)s-%(ccd)02d.fits'

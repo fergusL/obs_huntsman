@@ -18,7 +18,7 @@ config.parse.retarget(HuntsmanParseTask)
 
 # Specify mappings between FITS keys and LSST config keys
 config.parse.translation = {'expTime': 'EXPTIME',
-                            'ccd': 'CAM-ID',
+                            #'ccd': 'CAM-ID',   #ccd should be an integer
                             'ccdTemp': 'CCD-TEMP',
                             'expId': 'IMAGEID',
                             'taiObs': 'DATE-OBS', #Not sure what this one is
@@ -34,13 +34,14 @@ config.parse.defaults = {}
 config.parse.translators = {'visit': 'translate_visit',
                             'pointing': 'translate_pointing',
                             'dataType': 'translate_dataType',
-                            'dateObs': 'translate_dateObs'
+                            'dateObs': 'translate_dateObs',
+                            'ccd' : 'translate_ccd'
                             }
 
 # Declare the columns that should be read
 config.register.columns = {'field': 'text',
                            'visit': 'int',
-                           'ccd': 'text',
+                           'ccd': 'int',
                            'pointing': 'int',
                            'filter': 'text',
                            'dateObs': 'text',

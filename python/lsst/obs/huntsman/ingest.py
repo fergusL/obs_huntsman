@@ -64,6 +64,14 @@ class HuntsmanParseTask(ParseTask):
         '''
         return md['DATE-OBS'].strip('(UTC)')
 
+    def translate_ccd(self, md):
+        '''
+        Return an integer corresponding to the ccd.
+
+        This is currently a placeholder.
+        '''
+        return 1 #There should be a matching camera entry 
+
 
 class HuntsmanCalibsParseTask(CalibsParseTask):
 
