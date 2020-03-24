@@ -56,6 +56,14 @@ class HuntsmanParseTask(ParseTask):
         '''
         return 'test_dataType'
 
+    def translate_dateObs(self, md):
+        '''
+        Return a string corresponding to the data type.
+
+        This is currently a placeholder.
+        '''
+        return md['DATE-OBS'].strip('(UTC)')
+
 
 class HuntsmanCalibsParseTask(CalibsParseTask):
 

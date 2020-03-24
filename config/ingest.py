@@ -21,7 +21,6 @@ config.parse.translation = {'expTime': 'EXPTIME',
                             'ccd': 'CAM-ID',
                             'ccdTemp': 'CCD-TEMP',
                             'expId': 'IMAGEID',
-                            'dateObs': 'DATE-OBS',
                             'taiObs': 'DATE-OBS', #Not sure what this one is
                             'filter': 'FILTER',
                             'field': 'FIELD'
@@ -34,7 +33,8 @@ config.parse.defaults = {}
 # They are implemented in lsst.obs_X.XParseTask
 config.parse.translators = {'visit': 'translate_visit',
                             'pointing': 'translate_pointing',
-                            'dataType': 'translate_dataType'
+                            'dataType': 'translate_dataType',
+                            'dateObs': 'translate_dateObs'
                             }
 
 # Declare the columns that should be read
