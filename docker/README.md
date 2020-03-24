@@ -9,5 +9,5 @@ Then:
 
 ```
 cd $OBS_HUNTSMAN/docker
-docker compose run lsst_stack
+docker-compose run lsst_stack
 ```
