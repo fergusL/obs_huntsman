@@ -11,3 +11,8 @@ Then:
 cd $OBS_HUNTSMAN/docker
 docker-compose run lsst_stack
 ```
+# Ingesting images
+
+```
+ingestImages.py DATA testdata/*.fits.fz --mode=link
+```
