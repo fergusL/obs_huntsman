@@ -31,10 +31,10 @@ config.detectorList[0]=lsst.afw.cameraGeom.cameraConfig.DetectorConfig()
 config.detectorList[0].bbox_y0=0
 
 # y1 of pixel bounding box
-config.detectorList[0].bbox_y1=4096
+config.detectorList[0].bbox_y1=2532
 
 # x1 of pixel bounding box
-config.detectorList[0].bbox_x1=6144
+config.detectorList[0].bbox_x1=3352
 
 # x0 of pixel bounding box
 config.detectorList[0].bbox_x0=0
