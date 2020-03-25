@@ -2,6 +2,10 @@
 This may be useful:
 
 https://pipelines.lsst.io/modules/lsst.afw.cameraGeom/cameraGeom.html
+
+This is useful:
+
+https://github.com/lsst/obs_lsstSim/blob/86d1dc5cd3953c6b359c3f5e9ab69ae0c075f781/bin.src/makeLsstCameraRepository.py
 """
 import lsst.afw.table as afwTable
 import lsst.afw.geom as afwGeom
