@@ -41,3 +41,4 @@ bin/showPsfs.py
 bin/hscIsr.py
 
 *.DS_Store
+scripts/private

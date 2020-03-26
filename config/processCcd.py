@@ -23,5 +23,5 @@ config.isr.load(os.path.join(configDir, "isr.py"))
 config.charImage.load(os.path.join(configDir, "characterise.py"))
 
 #Load Calibrate configurations
-config.doCalibrate = False
+config.doCalibrate = True
 config.calibrate.load(os.path.join(configDir, "calibrate.py"))
