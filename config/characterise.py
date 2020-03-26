@@ -5,7 +5,7 @@ config.doWrite = False
 '''
 # Cosmic ray removal
 # See: https://github.com/lsst/meas_algorithms/blob/master/src/CR.cc
-config.repair.doCosmicRay = False
+config.repair.doCosmicRay = True
 
 # We seem to be getting too many CR detections
 # For now we can increase the max number of allowable CRs
