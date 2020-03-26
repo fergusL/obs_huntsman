@@ -76,7 +76,7 @@ def makeDetector(ccdId):
     # Add the amplifiers to the CCD
     ampTable = []
     for i in range(1):
-        addAmp(ampTable, i, readout[ccdId-1][i],gain_all[ccdId-1][i])
+        addAmp(ampTable, i, readout[ccdId-1][i], gain_all[ccdId-1][i])
 
     # Create detectorTable (can add more than one CCD here later)
     protoTypeSchema = cameraGeom.Amplifier.getRecordSchema()

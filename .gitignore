@@ -39,3 +39,6 @@ bin/showCamera.py
 bin/showDither.py
 bin/showPsfs.py
 bin/hscIsr.py
+
+*.DS_Store
+scripts/private
