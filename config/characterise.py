@@ -11,6 +11,13 @@ config.repair.doCosmicRay = True
 # For now we can increase the max number of allowable CRs
 config.repair.cosmicray.nCrPixelMax = 1000000
 
+# Raising these numbers reduces the number of CRs
+config.repair.cosmicray.cond3_fac = 10
+config.repair.cosmicray.cond3_fac2 = 10
+
+# This sets the minimum brightness for a CR.
+config.repair.cosmicray.min_DN = 100000
+
 # Sometimes there are no initial source detections, causing errors
 # Lowering this number gives more sources for PSF fitting (default 10)
 config.detection.includeThresholdMultiplier = 5.0
