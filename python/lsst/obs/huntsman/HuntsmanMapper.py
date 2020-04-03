@@ -9,7 +9,8 @@ import lsst.afw.image as afwImage
 from .makeHuntsmanRawVisitInfo import MakeHuntsmanRawVisitInfo
 
 class HuntsmanMapper(CameraMapper):
-    packageName = 'obs_Huntsman'
+
+    packageName = 'obs_huntsman'
 
     # A rawVisitInfoClass is required by processCcd.py
     MakeRawVisitInfoClass = MakeHuntsmanRawVisitInfo

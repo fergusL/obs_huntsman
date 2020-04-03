@@ -11,6 +11,8 @@ exposures:
     template: 'raw/%(dateObs)s/%(dataType)s-%(visit)04d-%(filter)s-%(ccd)02d.fits'
   calexp:
     template: 'calexp/calexp/%(visit)07d/calexp-%(visit)07d_%(ccd)02d-%(filter)s.fits'
+  postISRCCD:
+    template: 'postISR/postISR/%(visit)07d/postISR-%(visit)07d_%(ccd)02d-%(filter)s.fits'
 
 calibrations:
   add_bias_etc_here:
@@ -25,3 +27,21 @@ datasets:
     template: 'sci-results/src/%(dateObs)s/src-%(visit)04d-%(filter)s-%(ccd)02d.fits'
   calexpBackground:
     template: 'calexp/bkgd/%(visit)07d/calexp-%(visit)07d_%(ccd)02d-%(filter)s.fits'
+
+calibrations:
+  bias:
+    persistable: DecoratedImageU
+    python: lsst.afw.image.DecoratedImageU
+    template: calib/bias/bias-%(ccd)02d-%(calibDate)s.fits
+  dark:
+    persistable: DecoratedImageU
+    python: lsst.afw.image.DecoratedImageU
+    template: calib/dark/dark-%(ccd)02d-%(calibDate)s.fits
+  defects:
+    persistable: DecoratedImageU
+    python: lsst.afw.image.DecoratedImageU
+    template: calib/defects/defects-%(ccd)02d-(calibDate)s.fits
+  flat:
+    persistable: DecoratedImageU
+    python: lsst.afw.image.DecoratedImageU
+    template: calib/flat/flat-%(ccd)02d-%(calibDate)s.fits

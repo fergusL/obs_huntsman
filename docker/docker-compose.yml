@@ -9,4 +9,4 @@ services:
       - "$OBS_HUNTSMAN:/opt/lsst/software/stack/stack/current/Linux64/obs_huntsman"
       - "$OBS_HUNTSMAN_TESTDATA:/opt/lsst/software/stack/testdata"
     environment:
-      OBS_HUNTSMAN=/opt/lsst/software/stack/stack/current/Linux64/obs_huntsman
+      - OBS_HUNTSMAN=/opt/lsst/software/stack/stack/current/Linux64/obs_huntsman

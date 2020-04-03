@@ -4,7 +4,6 @@ objects. The functions defined here are called in ParseTask.getInfoFromMetadata.
 See also config.ingest.py.
 """
 import re
-import datetime
 import numpy as np
 
 from lsst.pipe.tasks.ingest import IngestTask, ParseTask, IngestArgumentParser
@@ -30,7 +29,26 @@ class HuntsmanIngestTask(IngestTask):
 
 
 class HuntsmanParseTask(ParseTask):
-    DAY0 = 55927  # Zero point for  2012-01-01  51544 -> 2000-01-01
+
+    def translate_dataType(self, md):
+        '''
+        This is by no means a good way of doing things, but is a temporary
+        solution for playing with the test data.
+        '''
+        if md['IMAGETYP'] == 'Light Frame':
+            if 'Dither' not in md['FIELD']:
+                dataType = 'science'
+            else:
+                dataType = 'flat'
+        elif md['IMAGETYP'] == 'Dark Frame':
+            if True:
+                dataType = 'dark'
+            else:
+                dataType = 'bias'
+        else:
+            raise NotImplementedError(f'IMAGETYPE not recongnised: '
+                                      f"{md['IMAGETYP']}")
+        return dataType
 
     def translate_visit(self, md):
         '''
@@ -48,14 +66,6 @@ class HuntsmanParseTask(ParseTask):
         '''
         return 0
 
-    def translate_dataType(self, md):
-        '''
-        Return a string corresponding to the data type.
-
-        This is currently a placeholder.
-        '''
-        return 'test_dataType'
-
     def translate_dateObs(self, md):
         '''
         Return a string corresponding to the data type.
@@ -70,9 +80,10 @@ class HuntsmanParseTask(ParseTask):
 
         This is currently a placeholder.
         '''
-        return 1 #There should be a matching camera entry 
+        # There should be a matching camera entry
+        return 1
 
-
+"""
 class HuntsmanCalibsParseTask(CalibsParseTask):
 
     def _translateFromCalibId(self, field, md):
@@ -91,3 +102,4 @@ class HuntsmanCalibsParseTask(CalibsParseTask):
 
     def translate_calibVersion(self, md):
         return self._translateFromCalibId("calibVersion", md)
+"""

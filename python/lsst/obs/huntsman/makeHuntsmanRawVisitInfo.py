@@ -1,8 +1,12 @@
+import numpy as np
+
 from lsst.afw.geom import degrees
 from lsst.afw.coord import Observatory
 from lsst.obs.base import MakeRawVisitInfo
 
 __all__ = ["MakeHuntsmanRawVisitInfo"]
+
+NaN = float("nan")
 
 class MakeHuntsmanRawVisitInfo(MakeRawVisitInfo):
     """Make a VisitInfo from the FITS header of an Huntsman image
@@ -21,4 +25,5 @@ class MakeHuntsmanRawVisitInfo(MakeRawVisitInfo):
         argDict["exposureTime"] = self.popFloat(md, 'EXPTIME')
         argDict["observatory"] = self.observatory
 
-        
+        # This is required to create master darks
+        argDict['darkTime'] = self.getDarkTime(argDict)

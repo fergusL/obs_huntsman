@@ -33,9 +33,9 @@ config.parse.defaults = {}
 # They are implemented in lsst.obs_X.XParseTask
 config.parse.translators = {'visit': 'translate_visit',
                             'pointing': 'translate_pointing',
-                            'dataType': 'translate_dataType',
                             'dateObs': 'translate_dateObs',
-                            'ccd' : 'translate_ccd'
+                            'dataType': 'translate_dataType',
+                            'ccd': 'translate_ccd'
                             }
 
 # Declare the columns that should be read
