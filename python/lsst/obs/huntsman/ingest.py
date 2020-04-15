@@ -72,7 +72,7 @@ class HuntsmanParseTask(ParseTask):
 
         This is currently a placeholder.
         '''
-        return md['DATE-OBS'].strip('(UTC)')
+        return md['DATE-OBS'][:10]
 
     def translate_ccd(self, md):
         '''
@@ -83,7 +83,7 @@ class HuntsmanParseTask(ParseTask):
         # There should be a matching camera entry
         return 1
 
-"""
+                                      
 class HuntsmanCalibsParseTask(CalibsParseTask):
 
     def _translateFromCalibId(self, field, md):
@@ -102,4 +102,3 @@ class HuntsmanCalibsParseTask(CalibsParseTask):
 
     def translate_calibVersion(self, md):
         return self._translateFromCalibId("calibVersion", md)
-"""

@@ -14,10 +14,6 @@ exposures:
   postISRCCD:
     template: 'postISR/postISR/%(visit)07d/postISR-%(visit)07d_%(ccd)02d-%(filter)s.fits'
 
-calibrations:
-  add_bias_etc_here:
-    template: 'this.txt'
-
 datasets:
   processCcd_metadata:
     template: 'processCcd_md/%(dateObs)s/processCcd_md-%(visit)04d-%(filter)s-%(ccd)02d.boost'
@@ -30,18 +26,46 @@ datasets:
 
 calibrations:
   bias:
-    persistable: DecoratedImageU
-    python: lsst.afw.image.DecoratedImageU
+    level: Ccd
+    persistable: DecoratedImageF
+    python: lsst.afw.image.DecoratedImageF
     template: calib/bias/bias-%(ccd)02d-%(calibDate)s.fits
   dark:
-    persistable: DecoratedImageU
-    python: lsst.afw.image.DecoratedImageU
+    level: Ccd
+    tables: dark
+    filter: false
+    columns:
+    - dateObs
+    - ccd
+    reference: raw
+    refCols:
+      - ccd
+      - calibDate
+    obsTimeName: dateObs
+    persistable: DecoratedImageF
+    python: lsst.afw.image.DecoratedImageF
     template: calib/dark/dark-%(ccd)02d-%(calibDate)s.fits
-  defects:
-    persistable: DecoratedImageU
-    python: lsst.afw.image.DecoratedImageU
-    template: calib/defects/defects-%(ccd)02d-(calibDate)s.fits
+    validRange: true
   flat:
-    persistable: DecoratedImageU
-    python: lsst.afw.image.DecoratedImageU
+    level: Ccd
+    tables: flat
+    filter: true
+    columns:
+    - dateObs
+    - ccd
+    - filter
+    reference: raw
+    refCols:
+      - ccd
+      - calibDate
+      - filter
+    obsTimeName: dateObs
+    persistable: DecoratedImageF
+    python: lsst.afw.image.DecoratedImageF
     template: calib/flat/flat-%(ccd)02d-%(calibDate)s.fits
+    validRange: true
+  defects:
+    level: Ccd
+    persistable: DecoratedImageF
+    python: lsst.afw.image.DecoratedImageF
+    template: calib/defects/defects-%(ccd)02d-(calibDate)s.fits

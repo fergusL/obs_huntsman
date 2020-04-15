@@ -14,6 +14,7 @@ config.repair.cosmicray.cond3_fac2 = 0
 
 # PSF settings
 # See: https://github.com/lsst/pipe_tasks/blob/master/python/lsst/pipe/tasks/measurePsf.py
+config.doMeasurePsf = True
 
 # Increasing this number gives a more accurate PSF estimate
 config.psfIterations = 3
