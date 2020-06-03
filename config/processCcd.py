@@ -16,12 +16,15 @@ from lsst.utils import getPackageDir
 #Grab the path to this config directory
 configDir = os.path.join(getPackageDir("obs_huntsman"), "config")
 
-#Load ISR configurations
+# Load ISR configurations
 config.isr.load(os.path.join(configDir, "isr.py"))
+config.isr.doBias = True
+config.isr.doFlat = True
+config.isr.doDark = False
 
-#Characterise
+# Characterise
 config.charImage.load(os.path.join(configDir, "characterise.py"))
 
-#Load Calibrate configurations
+# Load Calibrate configurations
 config.doCalibrate = True
 config.calibrate.load(os.path.join(configDir, "calibrate.py"))

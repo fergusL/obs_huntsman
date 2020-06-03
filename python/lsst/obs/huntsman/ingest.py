@@ -41,10 +41,7 @@ class HuntsmanParseTask(ParseTask):
             else:
                 dataType = 'flat'
         elif md['IMAGETYP'] == 'Dark Frame':
-            if True:
-                dataType = 'dark'
-            else:
-                dataType = 'bias'
+            dataType = 'bias'
         else:
             raise NotImplementedError(f'IMAGETYPE not recongnised: '
                                       f"{md['IMAGETYP']}")
@@ -83,6 +80,26 @@ class HuntsmanParseTask(ParseTask):
         # There should be a matching camera entry
         return 1
 
+    def translate_field(self, md):
+        """
+        Return a string corresponding to the field.
+        """
+        try:
+            return md['FIELD']
+        except KeyError:
+            pass
+        if md['IMAGETYP'] == 'dark frame':
+            return 'dark'
+        return 'unknown'
+
+    def translate_expId(self, md):
+        """
+        Obviously this should be changed.
+        """
+        try:
+            return md['IMAGEID']
+        except KeyError:
+            return f'{np.random.randint(100000)}'
                                       
 class HuntsmanCalibsParseTask(CalibsParseTask):
 
@@ -90,6 +107,9 @@ class HuntsmanCalibsParseTask(CalibsParseTask):
         data = md.getScalar("CALIB_ID")
         match = re.search(r".*%s=(\S+)" % field, data)
         return match.groups()[0]
+
+    def translate_expTime(self, md):
+        return float(self._translateFromCalibId("expTime", md))
 
     def translate_ccd(self, md):
         return int(self._translateFromCalibId("ccd", md))

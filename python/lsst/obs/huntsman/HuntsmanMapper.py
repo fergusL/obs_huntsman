@@ -69,3 +69,17 @@ class HuntsmanMapper(CameraMapper):
         processCcd.py will fail with a NotImplementedError() without this.
         '''
         return int("%(ccd)d" % dataId)
+
+    def std_bias(self, item, dataId):
+        """Standardize a bias dataset by converting it to an Exposure instead
+        of an Image"""
+        return self._standardizeExposure(self.exposures['raw'], item, dataId,
+                                         trimmed=False, setVisitInfo=False,
+                                         filter=False)
+
+    def std_flat(self, item, dataId):
+        """Standardize a flat dataset by converting it to an Exposure instead
+        of an Image"""
+        return self._standardizeExposure(self.exposures['raw'], item, dataId,
+                                         trimmed=False, setVisitInfo=False,
+                                         filter=True)
