@@ -26,10 +26,15 @@ RUN cd $LSST_HOME && \
   mkdir DATA && \
   mkdir DATA/CALIB && \
   echo "lsst.obs.huntsman.HuntsmanMapper" > DATA/_mapper && \
-  echo "lsst.obs.huntsman.HuntsmanMapper" > DATA/CALIB/_mapper
+  echo "lsst.obs.huntsman.HuntsmanMapper" > DATA/CALIB/_mapper && \
 
-#Make directory for Hunstman obs packge
-RUN mkdir -p $STACK/obs_huntsman
+  #Make directory for Hunstman obs packge
+  mkdir -p $STACK/obs_huntsman && \
+
+  # Install some extra stuff
+  . $LSST_HOME/loadLSST.bash && \
+  pip install ipython
+
 
 ADD ./docker/startup.sh .
 CMD ["sh", "./startup.sh"]

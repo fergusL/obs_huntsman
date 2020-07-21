@@ -22,7 +22,7 @@ config.parse.translation = {'expTime': 'EXPTIME',
                             'ccdTemp': 'CCD-TEMP',
                             'expId': 'IMAGEID',
                             'taiObs': 'DATE-OBS', #Not sure what this one is
-                            'filter': 'FILTER'
+                            # 'filter': 'FILTER'
                             }
 
 # Specify default key value pairs which are used if FITS keyword is missing
@@ -36,7 +36,8 @@ config.parse.translators = {'visit': 'translate_visit',
                             'dataType': 'translate_dataType',
                             'ccd': 'translate_ccd',
                             'field': 'translate_field',
-                            'expId': 'translate_expId'
+                            'expId': 'translate_expId',
+                            'filter': 'translate_filter'
                             }
 
 # Declare the columns that should be read

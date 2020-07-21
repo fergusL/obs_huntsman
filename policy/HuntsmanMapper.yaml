@@ -18,6 +18,9 @@ exposures:
     template: 'calexp/calexp/%(visit)07d/calexp-%(visit)07d_%(ccd)02d-%(filter)s.fits'
   postISRCCD:
     template: 'postISR/postISR/%(visit)07d/postISR-%(visit)07d_%(ccd)02d-%(filter)s.fits'
+  # deepCoadd_directWarps are warped calexps made by makeCoaddTempEx.py
+  deepCoadd_directWarp:
+    template: deepCoadd/%(filter)s/%(tract)d/%(patch)stempExp/v%(visit)d-f%(filter)s.fits
 
 datasets:
   processCcd_metadata:
@@ -28,6 +31,14 @@ datasets:
     template: 'sci-results/src/%(dateObs)s/src-%(visit)04d-%(filter)s-%(ccd)02d.fits'
   calexpBackground:
     template: 'calexp/bkgd/%(visit)07d/calexp-%(visit)07d_%(ccd)02d-%(filter)s.fits'
+  # srcMatch is the catalogue of sources that matched with the reference catalogue
+  # srcMatch is produced during image calibration
+  srcMatch:
+    persistable: BaseCatalog
+    python: lsst.afw.table.BaseCatalog
+    storage: FitsCatalogStorage
+    tables: raw
+    template: refmatch/srcMatch/%(dateObs)s/srcMatch-%(visit)04d-%(filter)s-%(ccd)02d.fits
 
 calibrations:
   bias:

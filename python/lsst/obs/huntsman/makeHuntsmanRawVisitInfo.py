@@ -1,3 +1,11 @@
+"""
+Useful links:
+https://github.com/lsst/obs_base/blob/master/python/lsst/obs/base/makeRawVisitInfo.py
+https://pipelines.lsst.io/modules/lsst.afw.image/exposure-fits-metadata.html
+
+Possibly useful:
+https://jira.lsstcorp.org/browse/DM-19766
+"""
 import numpy as np
 
 from lsst.afw.geom import degrees
@@ -26,4 +34,14 @@ class MakeHuntsmanRawVisitInfo(MakeRawVisitInfo):
         argDict["observatory"] = self.observatory
 
         # This is required to create master darks
-        argDict['darkTime'] = self.getDarkTime(argDict)
+        # argDict['darkTime'] = self.getDarkTime(argDict)
+
+        # This is required by the astrometry code
+        argDict["date"] = self.getDateAvg(md=md, exposureTime=argDict["exposureTime"])
+
+    def getDateAvg(self, md, exposureTime):
+        """
+        Return the date in the middle of the exposure.
+        """
+        dateObs = self.popIsoDate(md, "DATE-OBS")
+        return self.offsetDate(dateObs, 0.5*exposureTime)

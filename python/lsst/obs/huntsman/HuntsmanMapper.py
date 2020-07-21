@@ -1,5 +1,4 @@
 from __future__ import absolute_import, division, print_function
-
 import os
 
 from lsst.daf.persistence import Policy
@@ -7,6 +6,8 @@ from lsst.obs.base import CameraMapper
 import lsst.afw.image.utils as afwImageUtils
 import lsst.afw.image as afwImage
 from .makeHuntsmanRawVisitInfo import MakeHuntsmanRawVisitInfo
+from .huntsmanFilters import HUNTSMAN_FILTER_DEFINITIONS
+
 
 class HuntsmanMapper(CameraMapper):
 
@@ -15,16 +16,24 @@ class HuntsmanMapper(CameraMapper):
     # A rawVisitInfoClass is required by processCcd.py
     MakeRawVisitInfoClass = MakeHuntsmanRawVisitInfo
 
+    # Specify the filter definitions
+    filterDefinitions = HUNTSMAN_FILTER_DEFINITIONS
+
     def __init__(self, inputPolicy=None, **kwargs):
 
-        #Declare the policy file...
+        # Declare the policy file
         policyFile = Policy.defaultPolicyFile(self.packageName, "HuntsmanMapper.yaml", "policy")
         policy = Policy(policyFile)
-        #...and add it to the mapper:
+
+        # Add policy to the mapper
         super(HuntsmanMapper, self).__init__(policy, os.path.dirname(policyFile), **kwargs)
 
-        ###Defining your filter set###
-        #Create a python dict of filters:
+        # Define filters
+        self.filterDefinitions.reset()
+        self.filterDefinitions.defineFilters()
+
+        """
+        # Define filters
         self.filters = {}
 
         #Define your set of filters; you can have as many filters as you like...
@@ -35,7 +44,8 @@ class HuntsmanMapper(CameraMapper):
 
         #...and set your default filter.
         self.defaultFilterName = 'Clear'
-        ##############################
+        """
+        
 
     def _computeCcdExposureId(self, dataId):
         '''

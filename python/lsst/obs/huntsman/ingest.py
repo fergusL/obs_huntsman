@@ -47,6 +47,13 @@ class HuntsmanParseTask(ParseTask):
                                       f"{md['IMAGETYP']}")
         return dataType
 
+    def translate_filter(self, md):
+        """
+        Translate the given filter name to the abstract filter name.
+        For Huntsman, we strip of the serial number.
+        """
+        return "_".join(md["FILTER"].split("_")[:-1])
+
     def translate_visit(self, md):
         '''
         Return integer value corresponding to visit number.
@@ -100,7 +107,7 @@ class HuntsmanParseTask(ParseTask):
             return md['IMAGEID']
         except KeyError:
             return f'{np.random.randint(100000)}'
-                                      
+
 class HuntsmanCalibsParseTask(CalibsParseTask):
 
     def _translateFromCalibId(self, field, md):
