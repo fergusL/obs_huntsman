@@ -1,0 +1,3 @@
+# Map camera serial numbers into unique integers
+# There should be matching entries in camera.py
+83F010774: 1

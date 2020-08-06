@@ -17,8 +17,10 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('date', type=str, help='The calibration date.')
+    parser.add_argument('ccd', type=int, help='The integer ccd identifier.')
     args = parser.parse_args()
     date = args.date
+    ccd = args.ccd
 
     # Some placeholder inputs
     # date = '2018-05-16'
@@ -47,14 +49,13 @@ if __name__ == '__main__':
     butler = dafPersist.Butler(inputs=os.path.join(os.environ['LSST_HOME'],
                                                    datadir))
     # Query butler for dark exposures
-    # TODO: Replace visit with imageId
     metalist = butler.queryMetadata('raw',
                                     ['ccd', 'expTime', 'dateObs', 'visit'],
                                     dataId={'dataType': 'bias'})
 
     # Select the exposures we are interested in
     exposures = defaultdict(dict)
-    for (ccd, exptime, dateobs, imageId) in metalist:
+    for (ccd, exptime, dateobs, visit) in metalist:
 
         # Reject exposures outside of date range
         dateobs = parse_date(dateobs)
@@ -64,7 +65,7 @@ if __name__ == '__main__':
         # Update the list of calibs we need
         if exptime not in exposures[ccd].keys():
             exposures[ccd][exptime] = []
-        exposures[ccd][exptime].append(imageId)
+        exposures[ccd][exptime].append(visit)
 
     # Create the master calibs if we have enough data
     for ccd, exptimes in exposures.items():
@@ -81,11 +82,11 @@ if __name__ == '__main__':
                   f' exposures of {exptime}s.')
 
             # Construct the calib for this ccd/exptime combination
-            # TODO: Replace visit with imageId
             cmd = f"constructBias.py {datadir} --rerun {rerun}"
             cmd += f" --calib {calibdir}"
             cmd += f" --id visit={'^'.join([f'{id}' for id in image_ids])}"
             cmd += f" expTime={exptime}"
+            cmd += f" ccd={ccd}"
             cmd += f" --nodes {nodes} --procs {procs}"
             cmd += f" --calibId expTime={exptime} calibDate={date}"
             print(f'The command is: {cmd}')

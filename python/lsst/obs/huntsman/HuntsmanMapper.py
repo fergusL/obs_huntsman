@@ -45,7 +45,7 @@ class HuntsmanMapper(CameraMapper):
         #...and set your default filter.
         self.defaultFilterName = 'Clear'
         """
-        
+
 
     def _computeCcdExposureId(self, dataId):
         '''
