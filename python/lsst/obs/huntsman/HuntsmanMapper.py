@@ -46,7 +46,6 @@ class HuntsmanMapper(CameraMapper):
         self.defaultFilterName = 'Clear'
         """
 
-
     def _computeCcdExposureId(self, dataId):
         '''
         Every exposure needs a unique ID.

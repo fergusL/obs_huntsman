@@ -73,10 +73,13 @@ class HuntsmanParseTask(ParseTask):
         resolution.
 
         Unique exposures can therefore be identified by visit/ccd pairs.
+
+        Note: There needs to be space in memory for padding of the ccd number
+        used in computeExpId.
         """
         date_obs = md['DATE-OBS']  # This is a string
         datestr = ''.join([s for s in date_obs if s.isdigit()])
-        assert len(datestr) <= 20, "Date string too long for int64."
+        assert len(datestr) > 17, "Date string too long for int64."
         return datestr
 
     def translate_ccd(self, md):
