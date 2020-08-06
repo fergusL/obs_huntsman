@@ -75,7 +75,9 @@ class HuntsmanParseTask(ParseTask):
         Unique exposures can therefore be identified by visit/ccd pairs.
         """
         date_obs = md['DATE-OBS']  # This is a string
-        return int(''.join([s for s in date_obs if s.isdigit()]))
+        datestr = ''.join([s for s in date_obs if s.isdigit()])
+        assert len(datestr) <= 20, "Date string too long for int64."
+        return datestr
 
     def translate_ccd(self, md):
         """
