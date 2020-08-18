@@ -17,8 +17,10 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('date', type=str, help='The calibration date.')
+    parser.add_argument('ccd', type=int, help='The integer ccd identifier.')
     args = parser.parse_args()
     date = args.date
+    ccd = args.ccd
 
     # Some placeholder inputs
     date_range = 7
@@ -45,14 +47,13 @@ if __name__ == '__main__':
     butler = dafPersist.Butler(inputs=os.path.join(os.environ['LSST_HOME'],
                                                    datadir))
     # Query butler for dark exposures
-    # TODO: Replace visit with expId
     metalist = butler.queryMetadata('raw',
-                                    ['ccd', 'filter', 'dateObs', 'expId'],
+                                    ['ccd', 'filter', 'dateObs', 'visit'],
                                     dataId={'dataType': 'flat'})
 
     # Select the exposures we are interested in
     exposures = defaultdict(dict)
-    for (ccd, filter, dateobs, expId) in metalist:
+    for (ccd, filter, dateobs, visit) in metalist:
 
         # Reject exposures outside of date range
         dateobs = parse_date(dateobs)
@@ -62,13 +63,13 @@ if __name__ == '__main__':
         # Update the list of calibs we need
         if filter not in exposures[ccd].keys():
             exposures[ccd][filter] = []
-        exposures[ccd][filter].append(expId)
+        exposures[ccd][filter].append(visit)
 
     # Create the master calibs if we have enough data
     for ccd, filters in exposures.items():
-        for filter, exp_ids in filters.items():
+        for filter, visits in filters.items():
 
-            n_exposures = len(exp_ids)
+            n_exposures = len(visits)
 
             if n_exposures < min_exposures:
                 print(f'Not enough exposures for flats in {filter} filter on'
@@ -81,7 +82,8 @@ if __name__ == '__main__':
             # Construct the calib for this ccd/exptime combination
             cmd = f"constructFlat.py {datadir} --rerun {rerun}"
             cmd += f" --calib {calibdir}"
-            cmd += f" --id expId={'^'.join([f'{id}' for id in exp_ids])}"
+            cmd += f" --id visit={'^'.join([f'{id}' for id in visits])}"
+            cmd += f" ccd={ccd}"
             cmd += " dataType='flat'"  # TODO: remove
             cmd += f" filter={filter}"
             cmd += f" --nodes {nodes} --procs {procs}"

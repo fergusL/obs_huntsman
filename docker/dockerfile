@@ -38,5 +38,3 @@ RUN cd $LSST_HOME && \
 
 ADD ./docker/startup.sh .
 CMD ["sh", "./startup.sh"]
-
-#ingestImages.py DATA testdata/*.fits --mode=link

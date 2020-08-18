@@ -18,45 +18,39 @@ config.parse.retarget(HuntsmanParseTask)
 
 # Specify mappings between FITS keys and LSST config keys
 config.parse.translation = {'expTime': 'EXPTIME',
-                            #'ccd': 'CAM-ID',   #ccd should be an integer
                             'ccdTemp': 'CCD-TEMP',
                             'expId': 'IMAGEID',
-                            'taiObs': 'DATE-OBS', #Not sure what this one is
-                            # 'filter': 'FILTER'
+                            'taiObs': 'DATE-OBS',
+                            "field": "FIELD"
                             }
 
 # Specify default key value pairs which are used if FITS keyword is missing
 config.parse.defaults = {}
 
 # Specify functions to translate meta data to a python object
-# They are implemented in lsst.obs_X.XParseTask
-config.parse.translators = {'visit': 'translate_visit',
-                            'pointing': 'translate_pointing',
-                            'dateObs': 'translate_dateObs',
-                            'dataType': 'translate_dataType',
+# They are implemented in lsst.obs_huntsman.python.lsst.obs.huntsman.ingest.py
+config.parse.translators = {'dateObs': 'translate_dateObs',
                             'ccd': 'translate_ccd',
-                            'field': 'translate_field',
-                            'expId': 'translate_expId',
-                            'filter': 'translate_filter'
+                            'dataType': 'translate_dataType',
+                            'filter': 'translate_filter',
+                            "visit": "translate_visit"
                             }
 
 # Declare the columns that should be read
 config.register.columns = {'field': 'text',
-                           'visit': 'int',
                            'ccd': 'int',
-                           'pointing': 'int',
                            'filter': 'text',
                            'dateObs': 'text',
                            'taiObs': 'text',
                            'expTime': 'double',
                            'expId': 'text',
                            'dataType': 'text',
-                           #'imageId': 'text'
+                           "visit": "int"
                            }
 
 # Define what key combination constitutes a unique observation
-config.register.unique = ['visit', 'ccd']
+config.register.unique = ["visit", "ccd"]
 
-# This is needed for some reason. Not sure what it does yet.
+# This is needed for some reason. It is apparently outdated but necessary.
 # More info here: https://lsstcamdocs.readthedocs.io/en/latest/ingest.html
-config.register.visit = ['visit', 'field', 'filter', 'dateObs', 'taiObs']
+config.register.visit = ["visit", "ccd", "filter"]

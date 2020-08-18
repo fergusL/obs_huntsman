@@ -3,9 +3,11 @@ This part is responsible for converting FITS headers into appropriate python
 objects. The functions defined here are called in ParseTask.getInfoFromMetadata.
 See also config.ingest.py.
 """
+import os
 import re
-import numpy as np
+import yaml
 
+from lsst.utils import getPackageDir
 from lsst.pipe.tasks.ingest import IngestTask, ParseTask, IngestArgumentParser
 from lsst.pipe.tasks.ingestCalibs import CalibsParseTask
 
@@ -31,19 +33,21 @@ class HuntsmanIngestTask(IngestTask):
 class HuntsmanParseTask(ParseTask):
 
     def translate_dataType(self, md):
-        '''
-        This is by no means a good way of doing things, but is a temporary
-        solution for playing with the test data.
-        '''
+        """Translate FITS header into dataType: bias, flat or science."""
+
         if md['IMAGETYP'] == 'Light Frame':
-            if 'Dither' not in md['FIELD']:
-                dataType = 'science'
-            else:
+            # The FIELD keyword is set by pocs.observation.field.field_name.
+            # For flat fields, this is "Flat Field"
+            if md["FIELD"].startswith("Flat Field"):
                 dataType = 'flat'
+            else:
+                dataType = 'science'
+        # For Huntsman, we treat all dark frames as biases.
+        # The exposure times are used to match biases with science images.
         elif md['IMAGETYP'] == 'Dark Frame':
             dataType = 'bias'
         else:
-            raise NotImplementedError(f'IMAGETYPE not recongnised: '
+            raise NotImplementedError(f'IMAGETYP value not recongnised: '
                                       f"{md['IMAGETYP']}")
         return dataType
 
@@ -54,59 +58,40 @@ class HuntsmanParseTask(ParseTask):
         """
         return "_".join(md["FILTER"].split("_")[:-1])
 
-    def translate_visit(self, md):
-        '''
-        Return integer value corresponding to visit number.
-
-        This is currently a placeholder.
-        '''
-        return np.random.randint(0, 1E+6)
-
-    def translate_pointing(self, md):
-        '''
-        Return integer value corresponding to pointing number.
-
-        This is currently a placeholder.
-        '''
-        return 0
-
     def translate_dateObs(self, md):
-        '''
-        Return a string corresponding to the data type.
-
-        This is currently a placeholder.
-        '''
+        """Return the date of observation as a string."""
         return md['DATE-OBS'][:10]
 
+    def translate_visit(self, md):
+        """
+        Visit should be an integer value to avoid complications.
+
+        For Huntsman purposes, visit should be common to all exposures
+        taken simultaneously by the different cameras. This is encoded by the
+        time they were observed, provided there is sufficient temporal
+        resolution.
+
+        Unique exposures can therefore be identified by visit/ccd pairs.
+
+        Note: There needs to be space in memory for padding of the ccd number
+        used in computeExpId.
+        """
+        date_obs = md['DATE-OBS']  # This is a string
+        datestr = ''.join([s for s in date_obs if s.isdigit()])
+        assert len(datestr) == 17, "Date string expected to contain 17 numeric characters."
+        return int(datestr)
+
     def translate_ccd(self, md):
-        '''
-        Return an integer corresponding to the ccd.
+        """
+        Get a unique integer corresponding to the CCD.
+        """
+        ccd_name = md["INSTRUME"]
+        filename = os.path.join(getPackageDir("obs_huntsman"), "camera",
+                                "translate_ccd.yaml")
+        with open(filename, "r") as f:
+            ccd = int(yaml.safe_load(f)[ccd_name])
+        return ccd
 
-        This is currently a placeholder.
-        '''
-        # There should be a matching camera entry
-        return 1
-
-    def translate_field(self, md):
-        """
-        Return a string corresponding to the field.
-        """
-        try:
-            return md['FIELD']
-        except KeyError:
-            pass
-        if md['IMAGETYP'] == 'dark frame':
-            return 'dark'
-        return 'unknown'
-
-    def translate_expId(self, md):
-        """
-        Obviously this should be changed.
-        """
-        try:
-            return md['IMAGEID']
-        except KeyError:
-            return f'{np.random.randint(100000)}'
 
 class HuntsmanCalibsParseTask(CalibsParseTask):
 
