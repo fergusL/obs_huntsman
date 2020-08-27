@@ -6,7 +6,6 @@ See also config.ingest.py.
 import os
 import re
 import yaml
-import numpy as np
 
 from lsst.utils import getPackageDir
 from lsst.pipe.tasks.ingest import IngestTask, ParseTask, IngestArgumentParser
@@ -79,8 +78,8 @@ class HuntsmanParseTask(ParseTask):
         """
         date_obs = md['DATE-OBS']  # This is a string
         datestr = ''.join([s for s in date_obs if s.isdigit()])
-        assert len(datestr) > 17, "Date string too long for int64."
-        return datestr
+        assert len(datestr) == 17, "Date string expected to contain 17 numeric characters."
+        return int(datestr)
 
     def translate_ccd(self, md):
         """
@@ -92,6 +91,7 @@ class HuntsmanParseTask(ParseTask):
         with open(filename, "r") as f:
             ccd = int(yaml.safe_load(f)[ccd_name])
         return ccd
+
 
 class HuntsmanCalibsParseTask(CalibsParseTask):
 
