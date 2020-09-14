@@ -29,5 +29,9 @@ config.load(configFile)
 # files, and then run `test_ingested_reference_catalog.py` on the output
 # with a glob pattern that matches the first 10 files to check that the
 # ingest worked.
+
 args = [repo, "--output", output_dir, *files]
+# When using v20 of LSST stack I had to use the --clobber-config flag
+# to get it to work,
+# args = [repo, "--output", output_dir, "--clobber-config", *files]
 ingestTask.parseAndRun(args=args, config=config)
