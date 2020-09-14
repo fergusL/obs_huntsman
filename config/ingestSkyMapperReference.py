@@ -21,7 +21,7 @@ config.dec_name = "dej2000"
 config.ra_err_name = "e_raj2000"
 config.dec_err_name = "e_dej2000"
 # line below is needed when using v20 of LSST stack
-#config.coord_err_unit = 'arcsec'
+config.coord_err_unit = 'arcsec'
 # ValueError: All or none of ra_err_name, dec_err_name, coord_err_unit must be set, but only ra_err_name, dec_err_name are set
 # https://github.com/lsst/meas_algorithms/pull/208/files
 
