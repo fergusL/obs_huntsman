@@ -44,5 +44,5 @@ colorterms.data["ps1*"] = ColortermDict(data={
 for refObjLoader in (config.astromRefObjLoader,
                      config.photoRefObjLoader,
                      ):
-    refObjLoader.filterMap['g2'] = 'g_psf'
+    refObjLoader.filterMap['g_band'] = 'g_psf'
     # refObjLoader.filterMap['i2'] = 'i'
