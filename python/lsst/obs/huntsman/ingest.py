@@ -3,15 +3,12 @@ This part is responsible for converting FITS headers into appropriate python
 objects. The functions defined here are called in ParseTask.getInfoFromMetadata.
 See also config.ingest.py.
 """
-import os
 import re
-import yaml
 
-from lsst.utils import getPackageDir
 from lsst.pipe.tasks.ingest import IngestTask, ParseTask, IngestArgumentParser
 from lsst.pipe.tasks.ingestCalibs import CalibsParseTask
 
-from huntsman.drp.fitsutil import FitsHeaderTranslator
+from huntsman.drp.fitsutil import FitsHeaderTranslatorBase
 
 
 class HuntsmanIngestArgumentParser(IngestArgumentParser):
@@ -32,10 +29,10 @@ class HuntsmanIngestTask(IngestTask):
     ArgumentParser = HuntsmanIngestArgumentParser
 
 
-class HuntsmanParseTask(ParseTask, FitsHeaderTranslator):
+class HuntsmanParseTask(ParseTask, FitsHeaderTranslatorBase):
 
     def __init__(self, *args, **kwargs):
-        FitsHeaderTranslator.__init__(self)
+        FitsHeaderTranslatorBase.__init__(self)
         ParseTask.__init__(self, *args, **kwargs)
 
 
