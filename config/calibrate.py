@@ -48,3 +48,18 @@ for refObjLoader in (config.astromRefObjLoader,
     refObjLoader.filterMap['g_band'] = 'g_psf'
     refObjLoader.filterMap['r_band'] = 'r_psf'
     # refObjLoader.filterMap['i2'] = 'i'
+
+config.calibrate.saveMetadata = True
+config.calibrate.doWrite = True
+config.calibrate.doWriteHeavyFootprintsInSources = True
+config.calibrate.doWriteMatches = True
+config.calibrate.doWriteMatchesDenormalized = False
+config.calibrate.doAstrometry = True
+config.calibrate.requireAstrometry = True
+config.calibrate.doPhotoCal = False
+config.calibrate.requirePhotoCal = False
+config.calibrate.doDeblend = False
+config.calibrate.doSkySources = False
+config.calibrate.doApCorr = False
+config.calibrate.doInsertFakes = False
+config.calibrate.doWriteExposure = True
