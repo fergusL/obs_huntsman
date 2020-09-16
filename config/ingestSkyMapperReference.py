@@ -20,6 +20,7 @@ config.ra_name = "raj2000"
 config.dec_name = "dej2000"
 config.ra_err_name = "e_raj2000"
 config.dec_err_name = "e_dej2000"
+config.coord_err_unit = "arcsec"
 
 # All or none of these should be set
 # config.epoch_name = "mean_epoch"

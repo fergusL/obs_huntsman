@@ -24,55 +24,58 @@ config.transformDict.transforms['FieldAngle'].transform.name='inverted'
 
 #Define a list of detectors:
 config.detectorList={}
-config.detectorList[0]=lsst.afw.cameraGeom.cameraConfig.DetectorConfig()
 
-#All non-commented lines ARE REQUIRED for CameraMapper:
-# y0 of pixel bounding box
-config.detectorList[0].bbox_y0=0
+# NB need to update this to get parameters right for ZWO cameras
+for i in range(18):
+    config.detectorList[i+1]=lsst.afw.cameraGeom.cameraConfig.DetectorConfig()
 
-# y1 of pixel bounding box
-config.detectorList[0].bbox_y1=2532
+    #All non-commented lines ARE REQUIRED for CameraMapper:
+    # y0 of pixel bounding box
+    config.detectorList[i+1].bbox_y0=0
 
-# x1 of pixel bounding box
-config.detectorList[0].bbox_x1=3352
+    # y1 of pixel bounding box
+    config.detectorList[i+1].bbox_y1=2532
 
-# x0 of pixel bounding box
-config.detectorList[0].bbox_x0=0
+    # x1 of pixel bounding box
+    config.detectorList[i+1].bbox_x1=3352
 
-# Name of detector slot
-config.detectorList[0].name='n1_huntsman'
+    # x0 of pixel bounding box
+    config.detectorList[i+1].bbox_x0=0
 
-# Pixel size in mm
-config.detectorList[0].pixelSize_x=0.001
-config.detectorList[0].pixelSize_y=0.001
+    # Name of detector slot
+    config.detectorList[i+1].name='n'+str(i+1)+'_huntsman'
 
-# Name of native coordinate system
-config.detectorList[0].transformDict.nativeSys='Pixels'
+    # Pixel size in mm
+    config.detectorList[i+1].pixelSize_x=0.001
+    config.detectorList[i+1].pixelSize_y=0.001
 
-# x position of the reference point in the detector in pixels in transposed coordinates.
-config.detectorList[0].refpos_x=3072
+    # Name of native coordinate system
+    config.detectorList[i+1].transformDict.nativeSys='Pixels'
 
-# y position of the reference point in the detector in pixels in transposed coordinates.
-config.detectorList[0].refpos_y=2048
+    # x position of the reference point in the detector in pixels in transposed coordinates.
+    config.detectorList[i+1].refpos_x=3072
 
-# Detector type: SCIENCE=0, FOCUS=1, GUIDER=2, WAVEFRONT=3
-config.detectorList[0].detectorType=0
+    # y position of the reference point in the detector in pixels in transposed coordinates.
+    config.detectorList[i+1].refpos_y=2048
 
-# x offset from the origin of the camera in mm in the transposed system.
-config.detectorList[0].offset_x=0.
+    # Detector type: SCIENCE=0, FOCUS=1, GUIDER=2, WAVEFRONT=3
+    config.detectorList[i+1].detectorType=0
 
-# y offset from the origin of the camera in mm in the transposed system.
-config.detectorList[0].offset_y=0.
+    # x offset from the origin of the camera in mm in the transposed system.
+    config.detectorList[i+1].offset_x=0.
 
-config.detectorList[0].yawDeg=0.0
-config.detectorList[0].rollDeg=0.0
-config.detectorList[0].pitchDeg=0.0
+    # y offset from the origin of the camera in mm in the transposed system.
+    config.detectorList[i+1].offset_y=0.
 
-# Serial string associated with this specific detector
-config.detectorList[0].serial='1'
+    config.detectorList[i+1].yawDeg=0.0
+    config.detectorList[i+1].rollDeg=0.0
+    config.detectorList[i+1].pitchDeg=0.0
 
-# ID of detector slot
-config.detectorList[0].id=1
+    # Serial string associated with this specific detector
+    config.detectorList[i+1].serial=str(i+1)
+
+    # ID of detector slot
+    config.detectorList[i+1].id=i+1
 
 # Name of this config
 #This isn't strictly required for CameraMapper

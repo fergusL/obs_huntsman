@@ -16,8 +16,10 @@ from lsst.utils import getPackageDir
 import numpy as np
 
 # This is copying from afw/tests/testAmpInfoTable.py:
-readout = [[20.]]
-gain_all = [[0.5]]
+readout = [[20.], [20.], [20.], [20.], [20.], [20.], [20.], [20.], [20.],
+           [20.], [20.], [20.], [20.], [20.], [20.], [20.], [20.], [20.], [20.]]
+gain_all = [[0.5], [0.5], [0.5], [0.5], [0.5], [0.5], [0.5], [0.5], [0.5],
+            [0.5], [0.5], [0.5], [0.5], [0.5], [0.5], [0.5], [0.5], [0.5], [0.5]]
 
 def addAmp(ampCatalog, i, rN, gain_s):
 
@@ -96,5 +98,6 @@ def makeDetector(ccdId):
 
 if __name__ == "__main__":
 
-    for i in range(1):
+    # for i in range(1):
+    for i in range(18):
         camera = makeDetector(i)

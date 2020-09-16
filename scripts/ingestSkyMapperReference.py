@@ -11,7 +11,7 @@ rootdir = os.environ["LSST_HOME"]
 repo = os.path.join(rootdir, "DATA")
 
 # Specify the directories
-refcatdir =  os.path.join(rootdir, "testdata", "ref_cats")
+refcatdir = os.path.join(rootdir, "testdata", "ref_cats")
 input_glob = os.path.join(refcatdir, "skymapper_test_raw", "*.csv")
 output_dir = os.path.join(refcatdir, "skymapper_test")
 
@@ -29,5 +29,5 @@ config.load(configFile)
 # files, and then run `test_ingested_reference_catalog.py` on the output
 # with a glob pattern that matches the first 10 files to check that the
 # ingest worked.
-args = [repo, "--output", output_dir, *files]
-ingestTask.parseAndRun(args=args, config=config)
+args = [repo, "--configfile", configFile, "--output", output_dir, "--clobber-config", *files]
+ingestTask.parseAndRun(args=args)

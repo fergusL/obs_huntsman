@@ -8,7 +8,7 @@ https://jira.lsstcorp.org/browse/DM-19766
 """
 import numpy as np
 
-from lsst.afw.geom import degrees
+from lsst.geom import degrees
 from lsst.afw.coord import Observatory
 from lsst.obs.base import MakeRawVisitInfo
 
