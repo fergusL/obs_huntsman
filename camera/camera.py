@@ -35,10 +35,10 @@ for i in range(12):
     config.detectorList[i+1].bbox_y0=0
 
     # y1 of pixel bounding box
-    config.detectorList[i+1].bbox_y1=2532
+    config.detectorList[i+1].bbox_y1=3672
 
     # x1 of pixel bounding box
-    config.detectorList[i+1].bbox_x1=3352
+    config.detectorList[i+1].bbox_x1=5496
 
     # x0 of pixel bounding box
     config.detectorList[i+1].bbox_x0=0
@@ -85,10 +85,10 @@ for i in range(12, 18):
     config.detectorList[i+1].bbox_y0=0
 
     # y1 of pixel bounding box
-    config.detectorList[i+1].bbox_y1=3672
+    config.detectorList[i+1].bbox_y1=2532
 
     # x1 of pixel bounding box
-    config.detectorList[i+1].bbox_x1=5496
+    config.detectorList[i+1].bbox_x1=3352
 
     # x0 of pixel bounding box
     config.detectorList[i+1].bbox_x0=0
