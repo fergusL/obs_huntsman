@@ -15,26 +15,25 @@ from lsst.afw import cameraGeom
 from lsst.utils import getPackageDir
 import numpy as np
 
-# This is copying from afw/tests/testAmpInfoTable.py:
-readout = [[20.], [20.], [20.], [20.], [20.], [20.], [20.], [20.], [20.],
-           [20.], [20.], [20.], [20.], [20.], [20.], [20.], [20.], [20.], [20.]]
-gain_all = [[0.5], [0.5], [0.5], [0.5], [0.5], [0.5], [0.5], [0.5], [0.5],
-            [0.5], [0.5], [0.5], [0.5], [0.5], [0.5], [0.5], [0.5], [0.5], [0.5]]
 
-def addAmp(ampCatalog, i, rN, gain_s):
+# detector specifications
+zwo = {'width': 5496, 'height': 3672, 'saturation': 4095, 'gain': 1.145,
+       'readNoise': 2.4}
+sbig = {'width': 3352, 'height': 2532, 'saturation': 65535, 'gain': 0.37,
+        'readNoise': 20.}
+
+# This is copying from afw/tests/testAmpInfoTable.py:
+
+
+def addAmp(ampCatalog, i, readNoise=1, gain=1, width=0, height=0, saturation=1):
 
     amplifier = cameraGeom.Amplifier.Builder()
 
-    width = 3352
-    height = 2532
-    os = 0 #pixels of overscan
-    saturation = 65535
+    os = 0  # pixels of overscan
 
     bbox = lsstGeom.Box2I(lsstGeom.Point2I(0, 0), lsstGeom.Extent2I(width, height))
     bbox.shift(lsstGeom.Extent2I(width*i,0))
 
-    gain = gain_s
-    readNoise = rN
     readoutCorner = cameraGeom.ReadoutCorner.LL if i == 0 else cameraGeom.ReadoutCorner.LR
     linearityCoeffs = (1.0, np.nan, np.nan, np.nan)
     linearityType = "None"
@@ -72,14 +71,16 @@ def addAmp(ampCatalog, i, rN, gain_s):
 
     ampCatalog.append(amplifier)
 
-def makeDetector(ccdId):
+
+def makeDetector(ccdId, detector_specification):
 
     ccdName = ccdId+1
 
     # Add the amplifiers to the CCD
     ampTable = []
     for i in range(1):
-        addAmp(ampTable, i, readout[ccdId-1][i], gain_all[ccdId-1][i])
+        # addAmp(ampTable, i, readout[ccdId-1][i], gain_all[ccdId-1][i])
+        addAmp(ampTable, i, **detector_specification)
 
     # Create detectorTable (can add more than one CCD here later)
     protoTypeSchema = cameraGeom.Amplifier.getRecordSchema()
@@ -99,5 +100,7 @@ def makeDetector(ccdId):
 if __name__ == "__main__":
 
     # for i in range(1):
-    for i in range(18):
-        camera = makeDetector(i)
+    for i in range(12):
+        camera = makeDetector(i, zwo)
+    for i in range(12, 18):
+        camera = makeDetector(i, sbig)
