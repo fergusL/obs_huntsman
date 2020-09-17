@@ -17,6 +17,11 @@ config.repair.cosmicray.cond3_fac2 = 0
 # See: http://doxygen.lsst.codes/stack/doxygen/x_masterDoxyDoc/object_size_star_selector_8py_source.html
 # See: http://doxygen.lsst.codes/stack/doxygen/x_masterDoxyDoc/pca_psf_determiner_8py_source.html
 config.doMeasurePsf = False
+# config.doWrite = True
+config.doWriteExposure = False
+config.doDeblend = False
+config.doApCorr = False
+
 
 # config.measurePsf.doFluxLimit = False
 config.measurePsf.starSelector['objectSize'].doSignalToNoiseLimit = True
@@ -28,10 +33,3 @@ config.psfIterations = 3
 
 # Increasing this number allows more PSF candidates
 # config.measurePsf.starSelector['objectSize'].widthStdAllowed = 0.5
-
-
-# config.charImage.doMeasurePsf = True
-# config.charImage.doWrite = True
-config.charImage.doWriteExposure = False
-config.charImage.doDeblend = False
-config.charImage.doApCorr = False
