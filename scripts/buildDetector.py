@@ -8,21 +8,16 @@ This is useful:
 https://github.com/lsst/obs_lsstSim/blob/86d1dc5cd3953c6b359c3f5e9ab69ae0c075f781/bin.src/makeLsstCameraRepository.py
 """
 import os
+import numpy as np
+
 import lsst.afw.table as afwTable
-import lsst.afw.geom as afwGeom
 import lsst.geom as lsstGeom
 from lsst.afw import cameraGeom
 from lsst.utils import getPackageDir
-import numpy as np
 
-
-# detector specifications
-zwo = {'width': 5496, 'height': 3672, 'saturation': 4095, 'gain': 1.145,
-       'readNoise': 2.4}
-sbig = {'width': 3352, 'height': 2532, 'saturation': 65535, 'gain': 0.37,
-        'readNoise': 20.}
-
-# This is copying from afw/tests/testAmpInfoTable.py:
+# Detector specifications 
+zwo = {'width': 5496, 'height': 3672, 'saturation': 4095, 'gain': 1.145, 'readNoise': 2.4}
+sbig = {'width': 3352, 'height': 2532, 'saturation': 65535, 'gain': 0.37, 'readNoise': 20.}
 
 
 def addAmp(ampCatalog, i, readNoise=1, gain=1, width=0, height=0, saturation=1, overscan=0):
