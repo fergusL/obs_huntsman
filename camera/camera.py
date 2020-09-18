@@ -21,19 +21,18 @@ config.transformDict.transforms['FieldAngle'] = \
     lsst.afw.geom.transformConfig.TransformConfig()
 
 # coeffs = [0,1] is the default. This is only necessary if you want to convert
-#between positions on the focal plane.
+# between positions on the focal plane.
 config.transformDict.transforms['FieldAngle'].transform['inverted'].transform.retarget(target=lsst.afw.geom.transformRegistry['radial'])
 config.transformDict.transforms['FieldAngle'].transform['inverted'].transform.coeffs=[0.0, 1.0]
 config.transformDict.transforms['FieldAngle'].transform.name='inverted'
 
-#Define a list of detectors:
+#D efine a list of detectors:
 config.detectorList={}
 
 # NB need to update this to get parameters right for ZWO cameras
 for i in range(12):
     config.detectorList[i+1]=lsst.afw.cameraGeom.cameraConfig.DetectorConfig()
 
-    #All non-commented lines ARE REQUIRED for CameraMapper:
     # y0 of pixel bounding box
     config.detectorList[i+1].bbox_y0=0
 
