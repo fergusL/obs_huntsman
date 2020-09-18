@@ -6,8 +6,13 @@ https://pipelines.lsst.io/modules/lsst.afw.image/exposure-fits-metadata.html
 Possibly useful:
 https://jira.lsstcorp.org/browse/DM-19766
 """
+from astropy import units as u
+from astropy.coordinates import SkyCoord
+
+from lsst.geom import SpherePoint
 from lsst.geom import degrees
 from lsst.afw.coord import Observatory
+from lsst.afw.image import RotType
 from lsst.obs.base import MakeRawVisitInfo
 
 __all__ = ["MakeHuntsmanRawVisitInfo"]
@@ -39,6 +44,13 @@ class MakeHuntsmanRawVisitInfo(MakeRawVisitInfo):
 
         # This is required by the astrometry code
         argDict["date"] = self.getDateAvg(md=md, exposureTime=argDict["exposureTime"])
+
+        # Boresight information
+        icrs = SkyCoord(md["RA-MNT"], md["DEC-MNT"], frame="icrs", unit=u.deg)
+        argDict["boresightRaDec"] = SpherePoint(icrs.ra.degree, icrs.dec.degree, units=degrees)
+        argDict["boresightAirmass"] = md["AIRMASS"]
+        argDict["boresightRotAngle"] = md["HA-MNT"]*degrees
+        argDict["rotType"] = RotType.SKY
 
     def getDateAvg(self, md, exposureTime):
         """

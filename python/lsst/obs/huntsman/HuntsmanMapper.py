@@ -5,7 +5,6 @@ from lsst.daf.persistence import Policy
 from lsst.obs.base import CameraMapper
 from .makeHuntsmanRawVisitInfo import MakeHuntsmanRawVisitInfo
 from .huntsmanFilters import HUNTSMAN_FILTER_DEFINITIONS
-from .huntsmanTranslator import HuntsmanTranslator
 
 
 class HuntsmanMapper(CameraMapper):
@@ -17,8 +16,6 @@ class HuntsmanMapper(CameraMapper):
 
     # Specify the filter definitions
     filterDefinitions = HUNTSMAN_FILTER_DEFINITIONS
-
-    metadataTranslator = HuntsmanTranslator
 
     def __init__(self, inputPolicy=None, **kwargs):
 
