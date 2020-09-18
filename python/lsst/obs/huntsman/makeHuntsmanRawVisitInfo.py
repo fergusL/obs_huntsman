@@ -46,8 +46,9 @@ class MakeHuntsmanRawVisitInfo(MakeRawVisitInfo):
         argDict["date"] = self.getDateAvg(md=md, exposureTime=argDict["exposureTime"])
 
         # Boresight information
-        icrs = SkyCoord(md["RA-MNT"], md["DEC-MNT"], frame="icrs", unit=u.deg)
-        argDict["boresightRaDec"] = SpherePoint(icrs.ra.degree, icrs.dec.degree, units=degrees)
+        # This is required to create an initial WCS estimate based on camera geometry
+        # icrs = SkyCoord(md["RA-MNT"], md["DEC-MNT"], frame="icrs", unit=u.deg)
+        argDict["boresightRaDec"] = SpherePoint(md["RA-MNT"], md["DEC-MNT"], units=degrees)
         argDict["boresightAirmass"] = md["AIRMASS"]
         argDict["boresightRotAngle"] = md["HA-MNT"]*degrees
         argDict["rotType"] = RotType.SKY

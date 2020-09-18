@@ -32,7 +32,6 @@ def addAmp(ampCatalog, i, readNoise=1, gain=1, width=0, height=0, saturation=1):
     os = 0  # pixels of overscan
 
     bbox = lsstGeom.Box2I(lsstGeom.Point2I(0, 0), lsstGeom.Extent2I(width, height))
-    bbox.shift(lsstGeom.Extent2I(width*i,0))
 
     readoutCorner = cameraGeom.ReadoutCorner.LL if i == 0 else cameraGeom.ReadoutCorner.LR
     linearityCoeffs = (1.0, np.nan, np.nan, np.nan)
@@ -45,7 +44,7 @@ def addAmp(ampCatalog, i, readNoise=1, gain=1, width=0, height=0, saturation=1):
     #rawPrescanBBox = lsstGeom.Box2I(lsstGeom.Point2I(0, 0), lsstGeom.Extent2I(0, 0))
     emptyBox = lsstGeom.BoxI()
 
-    shiftp = lsstGeom.Extent2I((width)*i,0)
+    shiftp = lsstGeom.Extent2I((width)*i, 0)
     rawBBox.shift(shiftp)
     rawDataBBox.shift(shiftp)
     rawHorizontalOverscanBBox.shift(shiftp)
@@ -92,8 +91,7 @@ def makeDetector(ccdId, detector_specification):
         detectorTable.append(record)
 
     # Write the detector to file
-    fname = os.path.join(getPackageDir("obs_huntsman"), 'camera',
-                                       'n%s_huntsman.fits' % ccdName)
+    fname = os.path.join(getPackageDir("obs_huntsman"), 'camera', f'n{ccdName}_huntsman.fits')
     return detectorTable.writeFits(fname)
 
 

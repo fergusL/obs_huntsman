@@ -1,3 +1,6 @@
+"""
+See: https://pipelines.lsst.io/py-api/lsst.afw.cameraGeom.DetectorConfig.html
+"""
 import lsst.afw.cameraGeom.cameraConfig
 
 #This simply asserts whether the config class is of the
