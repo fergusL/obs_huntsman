@@ -3,10 +3,9 @@ import os
 
 from lsst.daf.persistence import Policy
 from lsst.obs.base import CameraMapper
-import lsst.afw.image.utils as afwImageUtils
-import lsst.afw.image as afwImage
 from .makeHuntsmanRawVisitInfo import MakeHuntsmanRawVisitInfo
 from .huntsmanFilters import HUNTSMAN_FILTER_DEFINITIONS
+from .huntsmanTranslator import HuntsmanTranslator
 
 
 class HuntsmanMapper(CameraMapper):
@@ -18,6 +17,8 @@ class HuntsmanMapper(CameraMapper):
 
     # Specify the filter definitions
     filterDefinitions = HUNTSMAN_FILTER_DEFINITIONS
+
+    metadataTranslator = HuntsmanTranslator
 
     def __init__(self, inputPolicy=None, **kwargs):
 
@@ -71,7 +72,6 @@ class HuntsmanMapper(CameraMapper):
         # I think this is better(?) as it preserves the date/ccd info in expId
         # return visit*64 + ccd
         return expId
-
 
     def bypass_ccdExposureId(self, datasetType, pythonType, location, dataId):
         '''You need to tell the stack that it needs to refer to the above _computeCcdExposureId function.
