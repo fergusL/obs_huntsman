@@ -10,7 +10,7 @@ config.name = 'Huntsman'
 
 # Sets the plate scale in arcsec/mm:
 # zwo pix size 0.0024mm and 1.2611"
-config.plateScale=527.54167
+config.plateScale = 527.54167
 
 # This defines the native coordinate system:
 # FocalPlane is (x,y) in mm (rather than radians or pixels, for example).
@@ -53,7 +53,7 @@ for i in range(12):
     config.detectorList[i+1].pixelSize_y = 0.0024
 
     # Name of native coordinate system
-    config.detectorList[i+1].transformDict.nativeSys='Pixels'
+    config.detectorList[i+1].transformDict.nativeSys = 'Pixels'
 
     # x position of the reference point in the detector in pixels in transposed coordinates.
     config.detectorList[i+1].refpos_x = 2748   # Half detector x size in pixels

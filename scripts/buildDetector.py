@@ -28,7 +28,7 @@ def addAmp(ampCatalog, i, readNoise=1, gain=1, width=0, height=0, saturation=1, 
 
     bbox = lsstGeom.Box2I(lsstGeom.Point2I(0, 0), lsstGeom.Extent2I(width, height))
 
-    readoutCorner = cameraGeom.ReadoutCorner.LL if i == 0 else cameraGeom.ReadoutCorner.LR
+    readoutCorner = cameraGeom.ReadoutCorner.LR
     linearityCoeffs = (1.0, np.nan, np.nan, np.nan)
     linearityType = "None"
     rawBBox = lsstGeom.Box2I(lsstGeom.Point2I(0, 0), lsstGeom.Extent2I(width, height))
@@ -41,7 +41,7 @@ def addAmp(ampCatalog, i, readNoise=1, gain=1, width=0, height=0, saturation=1, 
     amplifier.setRawFlipX(False)
     amplifier.setRawFlipY(False)
     amplifier.setBBox(bbox)
-    amplifier.setName('left' if i == 0 else 'right')
+    amplifier.setName(f'{i}')
     amplifier.setGain(gain)
     amplifier.setSaturation(saturation)
     amplifier.setReadNoise(readNoise)
