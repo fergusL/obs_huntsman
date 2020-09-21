@@ -1,5 +1,7 @@
 """
-See: https://pipelines.lsst.io/py-api/lsst.afw.cameraGeom.DetectorConfig.html
+See:
+    https://pipelines.lsst.io/py-api/lsst.afw.cameraGeom.CameraConfig.html
+    https://pipelines.lsst.io/py-api/lsst.afw.cameraGeom.DetectorConfig.html
 """
 import lsst.afw.cameraGeom.cameraConfig
 
@@ -10,20 +12,19 @@ config.name = 'Huntsman'
 
 # Sets the plate scale in arcsec/mm:
 # zwo pix size 0.0024mm and 1.2611"
-config.plateScale = 1000 #527.54167
+config.plateScale = 527.54167
 
 # This defines the native coordinate system:
 # FocalPlane is (x,y) in mm (rather than radians or pixels, for example).
 config.transformDict.nativeSys = 'FocalPlane'
 
-# For some reason, it must have "Pupil" defined:
+# Specify transformation between focal plane and field angle
+# This is required by the stack as of v20.
+# One of its uses is to calculate the pixel size for the initial WCS.
 config.transformDict.transforms = {}
 config.transformDict.transforms['FieldAngle'] = lsst.afw.geom.transformConfig.TransformConfig()
-
-# coeffs = [0,1] is the default. This is only necessary if you want to convert
-# between positions on the focal plane.
 config.transformDict.transforms['FieldAngle'].transform['inverted'].transform.retarget(target=lsst.afw.geom.transformRegistry['radial'])
-config.transformDict.transforms['FieldAngle'].transform['inverted'].transform.coeffs = [0.0, 1.0]
+config.transformDict.transforms['FieldAngle'].transform['inverted'].transform.coeffs = [0.0, 392.54]
 config.transformDict.transforms['FieldAngle'].transform.name = 'inverted'
 
 # Define a dict of detectors:
@@ -32,8 +33,6 @@ config.detectorList = {}
 # NB need to update this to get parameters right for ZWO cameras
 for i in range(12):
     config.detectorList[i] = lsst.afw.cameraGeom.cameraConfig.DetectorConfig()
-    config.detectorList[i].transformDict.transforms = None
-    config.detectorList[i].transposeDetector = False
     config.detectorList[i].transformDict.nativeSys = 'Pixels'
 
     # y0 of pixel bounding box

@@ -41,9 +41,7 @@ colorterms.data["ps1*"] = ColortermDict(data={
 })
 """
 # Specify mappings between Huntsman and Skymapper filters
-for refObjLoader in (config.astromRefObjLoader,
-                     config.photoRefObjLoader,
-                     ):
+for refObjLoader in (config.astromRefObjLoader, config.photoRefObjLoader):
     refObjLoader.filterMap['g2_8'] = 'g_psf'
     refObjLoader.filterMap['g_band'] = 'g_psf'
     refObjLoader.filterMap['r_band'] = 'r_psf'
