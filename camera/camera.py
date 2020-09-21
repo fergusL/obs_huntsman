@@ -20,14 +20,12 @@ config.transformDict.nativeSys = 'FocalPlane'
 
 # Specify transformation between focal plane and field angle
 # This is required by the stack as of v20.
-# One of its uses is to calculate the pixel size for the initial WCS.
+# One of its uses is to calculate the pixel size for the initial WCS
 config.transformDict.transforms = {}
 config.transformDict.transforms['FieldAngle'] = lsst.afw.geom.transformConfig.TransformConfig()
-config.transformDict.transforms['FieldAngle'].transform['multi'].transformDict = None
-config.transformDict.transforms['FieldAngle'].transform['affine'].translation = [0.0, 0.0]
-config.transformDict.transforms['FieldAngle'].transform['affine'].linear = [1.0, 0.0, 0.0, 1.0]
-config.transformDict.transforms['FieldAngle'].transform['radial'].coeffs = [0.0, 392.543]
-config.transformDict.transforms['FieldAngle'].transform.name = 'radial'
+config.transformDict.transforms['FieldAngle'].transform['inverted'].transform.retarget(target=lsst.afw.geom.transformRegistry['radial'])
+config.transformDict.transforms['FieldAngle'].transform['inverted'].transform.coeffs = [0.0, 392.54]
+config.transformDict.transforms['FieldAngle'].transform.name = 'inverted'
 
 # Define a dict of detectors:
 config.detectorList = {}
