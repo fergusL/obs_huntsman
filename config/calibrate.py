@@ -29,6 +29,7 @@ config.doAstrometry = True
 
 config.astrometry.sourceSelector["objectSize"].doFluxLimit = False
 config.astrometry.sourceSelector["objectSize"].doSignalToNoiseLimit = True
+config.astrometry.sourceSelector["objectSize"].signalToNoiseMin = 15
 
 # These colorterms are for HSC, included as an example
 """
