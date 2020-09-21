@@ -15,7 +15,7 @@ import lsst.geom as lsstGeom
 from lsst.afw import cameraGeom
 from lsst.utils import getPackageDir
 
-# Detector specifications 
+# Detector specifications
 zwo = {'width': 5496, 'height': 3672, 'saturation': 4095, 'gain': 1.145, 'readNoise': 2.4}
 sbig = {'width': 3352, 'height': 2532, 'saturation': 65535, 'gain': 0.37, 'readNoise': 20.}
 
