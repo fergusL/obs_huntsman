@@ -27,6 +27,9 @@ config.connections.photoRefCat = REFCAT
 config.doPhotoCal = True
 config.doAstrometry = True
 
+config.astrometry.sourceSelector["objectSize"].doFluxLimit = False
+config.astrometry.sourceSelector["objectSize"].doSignalToNoiseLimit = True
+
 # These colorterms are for HSC, included as an example
 """
 colorterms = config.calibrate.photoCal.colorterms
