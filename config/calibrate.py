@@ -33,7 +33,7 @@ config.astrometry.sourceSelector["objectSize"].doSignalToNoiseLimit = True
 config.astrometry.sourceSelector["objectSize"].signalToNoiseMin = 15
 config.astrometry.maxIter = 5
 config.astrometry.wcsFitter.numIter = 5
-config.astrometry.matcher.maxRotationDeg = 360
+# config.astrometry.matcher.maxRotationDeg = 360
 config.astrometry.matcher.matcherIterations = 10
 
 # These colorterms are for HSC, included as an example
