@@ -22,9 +22,9 @@ config.transformDict.transforms['FieldAngle'] = lsst.afw.geom.transformConfig.Tr
 
 # coeffs = [0,1] is the default. This is only necessary if you want to convert
 # between positions on the focal plane.
-# config.transformDict.transforms['FieldAngle'].transform['inverted'].transform.retarget(target=lsst.afw.geom.transformRegistry['radial'])
-# config.transformDict.transforms['FieldAngle'].transform['inverted'].transform.coeffs=[0.0, 1.0]
-# config.transformDict.transforms['FieldAngle'].transform.name='inverted'
+config.transformDict.transforms['FieldAngle'].transform['inverted'].transform.retarget(target=lsst.afw.geom.transformRegistry['radial'])
+config.transformDict.transforms['FieldAngle'].transform['inverted'].transform.coeffs = [0.0, 1.0]
+config.transformDict.transforms['FieldAngle'].transform.name = 'inverted'
 
 # Define a dict of detectors:
 config.detectorList = {}
