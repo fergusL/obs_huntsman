@@ -124,7 +124,7 @@ class HuntsmanMapper(CameraMapper):
             return
         try:
             newSkyWcs = createInitialSkyWcs(exposure.getInfo().getVisitInfo(), exposure.getDetector(),
-                                            flipY=True)
+                                            flipX=True)
             exposure.setWcs(newSkyWcs)
         except InitialSkyWcsError as e:
             msg = "Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: %s"
