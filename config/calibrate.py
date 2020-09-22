@@ -28,7 +28,7 @@ config.photoCal.photoCatName = REFCAT
 config.connections.astromRefCat = REFCAT
 config.connections.photoRefCat = REFCAT
 
-config.doPhotoCal = True
+config.doPhotoCal = False
 config.doAstrometry = True
 
 config.astrometry.sourceSelector['matcher'].minSnr = 15.0
