@@ -50,7 +50,8 @@ class MakeHuntsmanRawVisitInfo(MakeRawVisitInfo):
         # icrs = SkyCoord(md["RA-MNT"], md["DEC-MNT"], frame="icrs", unit=u.deg)
         argDict["boresightRaDec"] = SpherePoint(md["RA-MNT"], md["DEC-MNT"], units=degrees)
         argDict["boresightAirmass"] = md["AIRMASS"]
-        argDict["boresightRotAngle"] = md["HA-MNT"]*degrees
+        # argDict["boresightRotAngle"] = md["HA-MNT"]*degrees
+        argDict["boresightRotAngle"] = 0 * degrees
         argDict["rotType"] = RotType.SKY
 
     def getDateAvg(self, md, exposureTime):
