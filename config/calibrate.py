@@ -10,6 +10,10 @@ http://doxygen.lsst.codes/stack/doxygen/x_11_0/load_reference_objects_8py_source
 
 For setting up filters:
 https://community.lsst.org/t/failure-finding-flux-fields-in-processeimages-py/2486/2
+
+Astrometry config:
+https://pipelines.lsst.io/py-api/lsst.meas.astrom.AstrometryConfig.html
+https://pipelines.lsst.io/py-api/lsst.meas.astrom.FitTanSipWcsConfig.html
 '''
 from lsst.meas.algorithms import LoadIndexedReferenceObjectsTask
 from lsst.pipe.tasks.colorterms import ColortermDict, Colorterm
@@ -26,6 +30,8 @@ config.connections.photoRefCat = REFCAT
 
 config.doPhotoCal = True
 config.doAstrometry = True
+
+config.astrometry.sourceSelector['matcher'].minSnr = 10.0
 
 # These colorterms are for HSC, included as an example
 """

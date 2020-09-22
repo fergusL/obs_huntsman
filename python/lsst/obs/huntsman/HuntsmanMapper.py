@@ -6,6 +6,9 @@ from lsst.obs.base import CameraMapper
 from .makeHuntsmanRawVisitInfo import MakeHuntsmanRawVisitInfo
 from .huntsmanFilters import HUNTSMAN_FILTER_DEFINITIONS
 
+import traceback
+from lsst.obs.base.utils import createInitialSkyWcs, InitialSkyWcsError
+
 
 class HuntsmanMapper(CameraMapper):
 
@@ -107,3 +110,26 @@ class HuntsmanMapper(CameraMapper):
         return self._standardizeExposure(self.exposures['raw'], item, dataId,
                                          trimmed=False, setVisitInfo=False,
                                          filter=True)
+
+    def _createInitialSkyWcs(self, exposure):
+        # DECam has a coordinate system flipped on X with respect to our
+        # VisitInfo definition of the field angle orientation.
+        # We have to override this method until RFC-605 is implemented, to pass
+        # `flipX=True` to createInitialSkyWcs below.
+        self._createSkyWcsFromMetadata(exposure)
+
+        if exposure.getInfo().getVisitInfo() is None:
+            msg = "No VisitInfo; cannot access boresight information. Defaulting to metadata-based SkyWcs."
+            self.log.warn(msg)
+            return
+        try:
+            newSkyWcs = createInitialSkyWcs(exposure.getInfo().getVisitInfo(), exposure.getDetector(),
+                                            flipY=True)
+            exposure.setWcs(newSkyWcs)
+        except InitialSkyWcsError as e:
+            msg = "Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: %s"
+            self.log.warn(msg, e)
+            self.log.debug("Exception was: %s", traceback.TracebackException.from_exception(e))
+            if e.__context__ is not None:
+                self.log.debug("Root-cause Exception was: %s",
+                               traceback.TracebackException.from_exception(e.__context__))
