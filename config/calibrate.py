@@ -32,6 +32,7 @@ config.doPhotoCal = True
 config.doAstrometry = True
 
 config.astrometry.sourceSelector['matcher'].minSnr = 15.0
+config.astrometry.wcsFitter.maxScatterArcsec = 40
 
 # These colorterms are for HSC, included as an example
 """
