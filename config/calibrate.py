@@ -34,7 +34,6 @@ config.doAstrometry = True
 config.astrometry.sourceSelector['matcher'].minSnr = 15.0
 config.astrometry.referenceSelector.doMagLimit = True
 config.astrometry.referenceSelector.magLimit.maximum = 14
-config.astrometry.referenceSelector.magLimit.fluxField = 'g_psf'
 
 # These colorterms are for HSC, included as an example
 """
