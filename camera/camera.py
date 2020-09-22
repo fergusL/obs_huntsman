@@ -71,8 +71,8 @@ for i in range(12):
     config.detectorList[i].offset_y = 0.
 
     # 3D position angle of the CCD
-    config.detectorList[i].yawDeg = 0.0
-    config.detectorList[i].rollDeg = 180.0
+    config.detectorList[i].yawDeg = 180.0  # Not sure why we need this...
+    config.detectorList[i].rollDeg = 0.0
     config.detectorList[i].pitchDeg = 0.0
 
     # Serial string associated with this specific detector
