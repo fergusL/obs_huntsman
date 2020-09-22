@@ -26,7 +26,8 @@ config.transformDict.transforms['FieldAngle'] = lsst.afw.geom.transformConfig.Tr
 # config.transformDict.transforms['FieldAngle'].transform['inverted'].transform.retarget(target=lsst.afw.geom.transformRegistry['radial'])
 # config.transformDict.transforms['FieldAngle'].transform['inverted'].transform.coeffs = [0.0, 392.54]
 # config.transformDict.transforms['FieldAngle'].transform.name = 'inverted'
-config.transformDict.transforms['FieldAngle'].transform['radial'].coeffs = [0.0, 392.54]
+# config.transformDict.transforms['FieldAngle'].transform['radial'].coeffs = [0.0, 392.54]
+config.transformDict.transforms['FieldAngle'].transform['radial'].coeffs = [0.0, 1]
 config.transformDict.transforms['FieldAngle'].transform.name = 'radial'
 
 # Define a dict of detectors:
