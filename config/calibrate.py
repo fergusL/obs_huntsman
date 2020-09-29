@@ -10,6 +10,10 @@ http://doxygen.lsst.codes/stack/doxygen/x_11_0/load_reference_objects_8py_source
 
 For setting up filters:
 https://community.lsst.org/t/failure-finding-flux-fields-in-processeimages-py/2486/2
+
+Astrometry config:
+https://pipelines.lsst.io/py-api/lsst.meas.astrom.AstrometryConfig.html
+https://pipelines.lsst.io/py-api/lsst.meas.astrom.FitTanSipWcsConfig.html
 '''
 from lsst.meas.algorithms import LoadIndexedReferenceObjectsTask
 from lsst.pipe.tasks.colorterms import ColortermDict, Colorterm
@@ -41,9 +45,7 @@ colorterms.data["ps1*"] = ColortermDict(data={
 })
 """
 # Specify mappings between Huntsman and Skymapper filters
-for refObjLoader in (config.astromRefObjLoader,
-                     config.photoRefObjLoader,
-                     ):
+for refObjLoader in (config.astromRefObjLoader, config.photoRefObjLoader):
     refObjLoader.filterMap['g2_8'] = 'g_psf'
     refObjLoader.filterMap['g_band'] = 'g_psf'
     refObjLoader.filterMap['r_band'] = 'r_psf'

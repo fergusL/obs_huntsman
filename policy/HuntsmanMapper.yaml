@@ -15,7 +15,7 @@ exposures:
     persistable: DecoratedImageU
     # Removing some of the variables from this path can cause things to break
     # Specifying the exposure time here seems to help match raw exposures with calibs
-    template: 'raw/%(dataType)s/%(dateObs)s/%(ccd)i/%(visit)i_%(expTime).2f.fits'
+    template: 'raw/%(dataType)s/%(dateObs)s/%(ccd)i/%(visit)i_%(expTime).5f.fits'
   calexp:
     template: 'calexp/calexp/%(dateObs)s/%(filter)s/calexp-%(expId)s.fits'
   postISRCCD:
@@ -51,7 +51,7 @@ calibrations:
     obsTimeName: dateObs
     persistable: DecoratedImageF
     python: lsst.afw.image.DecoratedImageF
-    template: calib/bias/%(calibDate)s/%(ccd)i/%(expTime).2f.fits
+    template: calib/bias/%(calibDate)s/%(ccd)i/%(expTime).5f.fits
     columns:
       - ccd
       - expTime

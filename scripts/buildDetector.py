@@ -8,54 +8,40 @@ This is useful:
 https://github.com/lsst/obs_lsstSim/blob/86d1dc5cd3953c6b359c3f5e9ab69ae0c075f781/bin.src/makeLsstCameraRepository.py
 """
 import os
+import numpy as np
+
 import lsst.afw.table as afwTable
-import lsst.afw.geom as afwGeom
 import lsst.geom as lsstGeom
 from lsst.afw import cameraGeom
 from lsst.utils import getPackageDir
-import numpy as np
+
+# Detector specifications
+zwo = {'width': 5496, 'height': 3672, 'saturation': 4095, 'gain': 1.145, 'readNoise': 2.4}
+sbig = {'width': 3352, 'height': 2532, 'saturation': 65535, 'gain': 0.37, 'readNoise': 20.}
 
 
-# detector specifications
-zwo = {'width': 5496, 'height': 3672, 'saturation': 4095, 'gain': 1.145,
-       'readNoise': 2.4}
-sbig = {'width': 3352, 'height': 2532, 'saturation': 65535, 'gain': 0.37,
-        'readNoise': 20.}
-
-# This is copying from afw/tests/testAmpInfoTable.py:
-
-
-def addAmp(ampCatalog, i, readNoise=1, gain=1, width=0, height=0, saturation=1):
+def addAmp(ampCatalog, i, readNoise=1, gain=1, width=0, height=0, saturation=1, overscan=0):
+    if overscan != 0:
+        raise NotImplementedError("Non-zero overscan not yet implemented.")
 
     amplifier = cameraGeom.Amplifier.Builder()
 
-    os = 0  # pixels of overscan
-
     bbox = lsstGeom.Box2I(lsstGeom.Point2I(0, 0), lsstGeom.Extent2I(width, height))
-    bbox.shift(lsstGeom.Extent2I(width*i,0))
 
-    readoutCorner = cameraGeom.ReadoutCorner.LL if i == 0 else cameraGeom.ReadoutCorner.LR
+    readoutCorner = cameraGeom.ReadoutCorner.LR   # <----------- TODO: check this
     linearityCoeffs = (1.0, np.nan, np.nan, np.nan)
     linearityType = "None"
-    rawBBox = lsstGeom.Box2I(lsstGeom.Point2I(0, 0), lsstGeom.Extent2I(width,height))
+    rawBBox = lsstGeom.Box2I(lsstGeom.Point2I(0, 0), lsstGeom.Extent2I(width, height))
     rawXYOffset = lsstGeom.Extent2I(0, 0)
-    rawDataBBox = lsstGeom.Box2I(lsstGeom.Point2I(0 if i==0 else 0, 0), lsstGeom.Extent2I(width,height))
-    rawHorizontalOverscanBBox = lsstGeom.Box2I(lsstGeom.Point2I(0 if i==0 else width-os-1, 0), lsstGeom.Extent2I(os, 6220))
-    #rawVerticalOverscanBBox = lsstGeom.Box2I(lsstGeom.Point2I(50, 6132), lsstGeom.Extent2I(0, 0))
-    #rawPrescanBBox = lsstGeom.Box2I(lsstGeom.Point2I(0, 0), lsstGeom.Extent2I(0, 0))
+    rawDataBBox = lsstGeom.Box2I(lsstGeom.Point2I(0, 0), lsstGeom.Extent2I(width, height))
+    rawHorizontalOverscanBBox = lsstGeom.Box2I(lsstGeom.Point2I(0, 0),
+                                               lsstGeom.Extent2I(width, height))
     emptyBox = lsstGeom.BoxI()
 
-    shiftp = lsstGeom.Extent2I((width)*i,0)
-    rawBBox.shift(shiftp)
-    rawDataBBox.shift(shiftp)
-    rawHorizontalOverscanBBox.shift(shiftp)
-
-    #amplifier.setHasRawInfo(True) #Sets the first Flag=True
-
-    amplifier.setRawFlipX(False)  #Sets the second Flag=False
-    amplifier.setRawFlipY(False)  #Sets the third Flag=False
+    amplifier.setRawFlipX(False)
+    amplifier.setRawFlipY(False)
     amplifier.setBBox(bbox)
-    amplifier.setName('left' if i == 0 else 'right')
+    amplifier.setName(f'{i}')
     amplifier.setGain(gain)
     amplifier.setSaturation(saturation)
     amplifier.setReadNoise(readNoise)
@@ -92,8 +78,7 @@ def makeDetector(ccdId, detector_specification):
         detectorTable.append(record)
 
     # Write the detector to file
-    fname = os.path.join(getPackageDir("obs_huntsman"), 'camera',
-                                       'n%s_huntsman.fits' % ccdName)
+    fname = os.path.join(getPackageDir("obs_huntsman"), 'camera', f'n{ccdName}_huntsman.fits')
     return detectorTable.writeFits(fname)
 
 
