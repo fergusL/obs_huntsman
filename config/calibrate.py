@@ -28,11 +28,8 @@ config.photoCal.photoCatName = REFCAT
 config.connections.astromRefCat = REFCAT
 config.connections.photoRefCat = REFCAT
 
-config.doPhotoCal = False
+config.doPhotoCal = True
 config.doAstrometry = True
-
-config.astrometry.sourceSelector['matcher'].minSnr = 15.0
-config.astrometry.wcsFitter.maxScatterArcsec = 40
 
 # These colorterms are for HSC, included as an example
 """

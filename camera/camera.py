@@ -7,6 +7,8 @@ import lsst.afw.cameraGeom.cameraConfig
 
 assert type(config) is lsst.afw.cameraGeom.cameraConfig.CameraConfig
 
+ZWO_PIXEL_SIZE = 0.0024  # Arcsec mm-1
+
 # This isn't strictly required for CameraMapper
 config.name = 'Huntsman'
 
@@ -18,16 +20,12 @@ config.plateScale = 527.54167
 # FocalPlane is (x,y) in mm (rather than radians or pixels, for example).
 config.transformDict.nativeSys = 'FocalPlane'
 
-# Specify transformation between focal plane and field angle
+# Specify transformation between focal plane units and field angle units.
 # This is required by the stack as of v20.
 # One of its uses is to calculate the pixel size for the initial WCS.
 config.transformDict.transforms = {}
 config.transformDict.transforms['FieldAngle'] = lsst.afw.geom.transformConfig.TransformConfig()
-# config.transformDict.transforms['FieldAngle'].transform['inverted'].transform.retarget(target=lsst.afw.geom.transformRegistry['radial'])
-# config.transformDict.transforms['FieldAngle'].transform['inverted'].transform.coeffs = [0.0, 392.54]
-# config.transformDict.transforms['FieldAngle'].transform.name = 'inverted'
-# config.transformDict.transforms['FieldAngle'].transform['radial'].coeffs = [0.0, 392.54]
-config.transformDict.transforms['FieldAngle'].transform['radial'].coeffs = [0.0, 0.0025475]
+config.transformDict.transforms['FieldAngle'].transform['radial'].coeffs = [0.0, ZWO_PIXEL_SIZE]
 config.transformDict.transforms['FieldAngle'].transform.name = 'radial'
 
 # Define a dict of detectors:
@@ -55,8 +53,8 @@ for i in range(12):
     config.detectorList[i].name='n'+str(i+1)+'_huntsman'
 
     # Pixel size in mm
-    config.detectorList[i].pixelSize_x = 0.0024
-    config.detectorList[i].pixelSize_y = 0.0024
+    config.detectorList[i].pixelSize_x = ZWO_PIXEL_SIZE
+    config.detectorList[i].pixelSize_y = ZWO_PIXEL_SIZE
 
     # x position of the reference point in the detector in pixels in transposed coordinates.
     config.detectorList[i].refpos_x = 2748   # Half detector x size in pixels
