@@ -32,7 +32,7 @@ config.transformDict.transforms['FieldAngle'].transform.name = 'radial'
 config.detectorList = {}
 
 # NB need to update this to get parameters right for ZWO cameras
-for i in range(12):
+for i in range(10):  # ZWOs
     config.detectorList[i] = lsst.afw.cameraGeom.cameraConfig.DetectorConfig()
     config.detectorList[i].transformDict.nativeSys = 'Pixels'
     config.detectorList[i].transposeDetector = False
@@ -80,7 +80,7 @@ for i in range(12):
     # ID of detector slot
     config.detectorList[i].id = i+1
 
-for i in range(12, 18):
+for i in range(10, 16):  # SBIG
     config.detectorList[i] = lsst.afw.cameraGeom.cameraConfig.DetectorConfig()
 
     # All non-commented lines ARE REQUIRED for CameraMapper:
@@ -130,3 +130,53 @@ for i in range(12, 18):
 
     # ID of detector slot
     config.detectorList[i].id=i+1
+
+
+for i in range(16, 18):  # TESTCAM
+
+    config.detectorList[i] = lsst.afw.cameraGeom.cameraConfig.DetectorConfig()
+    config.detectorList[i].transformDict.nativeSys = 'Pixels'
+    config.detectorList[i].transposeDetector = False
+
+    # y0 of pixel bounding box
+    config.detectorList[i].bbox_y0 = 0
+
+    # y1 of pixel bounding box
+    config.detectorList[i].bbox_y1 = 100
+
+    # x1 of pixel bounding box
+    config.detectorList[i].bbox_x1 = 100
+
+    # x0 of pixel bounding box
+    config.detectorList[i].bbox_x0 = 0
+
+    # Name of detector slot
+    config.detectorList[i].name='n'+str(i+1)+'_huntsman'
+
+    # Pixel size in mm
+    config.detectorList[i].pixelSize_x = ZWO_PIXEL_SIZE
+    config.detectorList[i].pixelSize_y = ZWO_PIXEL_SIZE
+
+    # x position of the reference point in the detector in pixels in transposed coordinates.
+    config.detectorList[i].refpos_x = 50   # Half detector x size in pixels
+
+    # y position of the reference point in the detector in pixels in transposed coordinates.
+    config.detectorList[i].refpos_y = 50  # Half detector y size in pixels
+
+    # Detector type: SCIENCE=0, FOCUS=1, GUIDER=2, WAVEFRONT=3
+    config.detectorList[i].detectorType = 0
+
+    # Offsets from the origin of the camera in mm in the transposed system.
+    config.detectorList[i].offset_x = 0.
+    config.detectorList[i].offset_y = 0.
+
+    # 3D position angle of the CCD
+    config.detectorList[i].yawDeg = 0.0  # Not sure why we need this...
+    config.detectorList[i].rollDeg = 0.0
+    config.detectorList[i].pitchDeg = 0.0
+
+    # Serial string associated with this specific detector
+    config.detectorList[i].serial = str(i+1)
+
+    # ID of detector slot
+    config.detectorList[i].id = i+1

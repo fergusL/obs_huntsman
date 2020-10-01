@@ -16,8 +16,9 @@ from lsst.afw import cameraGeom
 from lsst.utils import getPackageDir
 
 # Detector specifications
-zwo = {'width': 5496, 'height': 3672, 'saturation': 4095, 'gain': 1.145, 'readNoise': 2.4}
-sbig = {'width': 3352, 'height': 2532, 'saturation': 65535, 'gain': 0.37, 'readNoise': 20.}
+config_zwo = {'width': 5496, 'height': 3672, 'saturation': 4095, 'gain': 1.145, 'readNoise': 2.4}
+config_sbig = {'width': 3352, 'height': 2532, 'saturation': 65535, 'gain': 0.37, 'readNoise': 20.}
+config_test = {'width': 100, 'height': 100, 'saturation': 4095, 'gain': 1.145, 'readNoise': 2.4}
 
 
 def addAmp(ampCatalog, i, readNoise=1, gain=1, width=0, height=0, saturation=1, overscan=0):
@@ -85,7 +86,9 @@ def makeDetector(ccdId, detector_specification):
 if __name__ == "__main__":
 
     # for i in range(1):
-    for i in range(12):
-        camera = makeDetector(i, zwo)
-    for i in range(12, 18):
-        camera = makeDetector(i, sbig)
+    for i in range(10):
+        camera = makeDetector(i, config_zwo)
+    for i in range(10, 16):
+        camera = makeDetector(i, config_sbig)
+    for i in range(16, 18):
+        camera = makeDetector(i, config_test)
