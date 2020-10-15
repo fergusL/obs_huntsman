@@ -29,7 +29,7 @@ config.connections.astromRefCat = REFCAT
 config.connections.photoRefCat = REFCAT
 
 config.doPhotoCal = True
-config.doAstrometry = True
+config.doAstrometry = False
 
 # These colorterms are for HSC, included as an example
 """
