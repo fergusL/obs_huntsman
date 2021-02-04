@@ -7,15 +7,16 @@
 from lsst.obs.base import FilterDefinition, FilterDefinitionCollection
 
 # Note that these aren't the proper measurements, just guesses for now.
+# TODO: Update!
 
 HUNTSMAN_FILTER_DEFINITIONS = FilterDefinitionCollection(
     FilterDefinition(physical_filter="g2_8",        # Retained for testing purposes
-                     abstract_filter="g_band",
+                     band="g_band",
                      lambdaEff=550, lambdaMin=500, lambdaMax=600),
     FilterDefinition(physical_filter="g_band",
-                     abstract_filter="g_band",
+                     band="g_band",
                      lambdaEff=550, lambdaMin=500, lambdaMax=600),
     FilterDefinition(physical_filter="r_band",
-                     abstract_filter="r_band",
+                     band="r_band",
                      lambdaEff=550, lambdaMin=500, lambdaMax=600),
 )
