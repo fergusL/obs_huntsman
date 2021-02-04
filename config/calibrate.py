@@ -31,6 +31,13 @@ config.connections.photoRefCat = REFCAT
 config.doPhotoCal = True
 config.doAstrometry = False
 
+# Photometric calibration config
+# Matching radius in arcseconds for photometric calibration
+config.photoCal.match.matchRadius = 3
+# Treat sources smaller than this as unresolved
+config.photoCal.match.sourceSelection.unresolved.maximum = 3  # Assumed arcsec
+
+
 # These colorterms are for HSC, included as an example
 """
 colorterms = config.calibrate.photoCal.colorterms
