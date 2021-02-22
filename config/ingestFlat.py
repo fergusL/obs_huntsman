@@ -1,8 +1,6 @@
-import os.path
-from lsst.utils import getPackageDir
+from lsst.obs.huntsman.ingest import HuntsmanCalibsParseTask
 
-configDir = os.path.join(getPackageDir("obs_huntsman"), "config")
-config.load(os.path.join(configDir, "ingestCalibs.py"))
+config.parse.retarget(HuntsmanCalibsParseTask)
 
 config.parse.translators = {'filter': 'translate_filter',
                             'ccd': 'translate_ccd',
@@ -15,6 +13,7 @@ config.register.columns = {'filter': 'text',
                            'validEnd': 'text',
                            }
 
-config.register.tables = ['flat', 'bias']
+config.register.tables = ['flat']
 config.register.unique = ['filter', 'ccd', 'calibDate']
 config.register.detector = ['filter', 'ccd']
+config.register.visit = ['calibDate']

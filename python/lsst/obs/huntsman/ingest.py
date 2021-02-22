@@ -43,9 +43,6 @@ class HuntsmanCalibsParseTask(CalibsParseTask):
         match = re.search(r".*%s=(\S+)" % field, data)
         return match.groups()[0]
 
-    def translate_expTime(self, md):
-        return float(self._translateFromCalibId("expTime", md))
-
     def translate_ccd(self, md):
         return int(self._translateFromCalibId("ccd", md))
 

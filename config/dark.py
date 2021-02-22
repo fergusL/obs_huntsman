@@ -8,3 +8,4 @@ configDir = os.path.join(getPackageDir("obs_huntsman"), "config")
 config.isr.load(os.path.join(configDir, "isr.py"))
 
 config.repair.doCosmicRay = False
+config.isr.doBias = True

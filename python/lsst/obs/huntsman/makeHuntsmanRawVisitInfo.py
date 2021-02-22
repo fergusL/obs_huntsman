@@ -6,9 +6,6 @@ https://pipelines.lsst.io/modules/lsst.afw.image/exposure-fits-metadata.html
 Possibly useful:
 https://jira.lsstcorp.org/browse/DM-19766
 """
-from astropy import units as u
-from astropy.coordinates import SkyCoord
-
 from lsst.geom import SpherePoint
 from lsst.geom import degrees
 from lsst.afw.coord import Observatory
@@ -22,6 +19,9 @@ NaN = float("nan")
 
 class MakeHuntsmanRawVisitInfo(MakeRawVisitInfo):
     """Make a VisitInfo from the FITS header of an Huntsman image"""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
     observatory = Observatory(-17.882*degrees, 28.761*degrees, 2332)  # long, lat, elev
 
@@ -40,17 +40,14 @@ class MakeHuntsmanRawVisitInfo(MakeRawVisitInfo):
         argDict["observatory"] = self.observatory
 
         # This is required to create master darks
-        # argDict['darkTime'] = self.getDarkTime(argDict)
+        argDict['darkTime'] = self.getDarkTime(argDict)
 
         # This is required by the astrometry code
         argDict["date"] = self.getDateAvg(md=md, exposureTime=argDict["exposureTime"])
 
-        # Boresight information
-        # This is required to create an initial WCS estimate based on camera geometry
-        # icrs = SkyCoord(md["RA-MNT"], md["DEC-MNT"], frame="icrs", unit=u.deg)
+        # Boresight information required to create an initial WCS estimate based on camera geometry
         argDict["boresightRaDec"] = SpherePoint(md["RA-MNT"], md["DEC-MNT"], units=degrees)
         argDict["boresightAirmass"] = md["AIRMASS"]
-        # argDict["boresightRotAngle"] = md["HA-MNT"]*degrees
         argDict["boresightRotAngle"] = 0 * degrees
         argDict["rotType"] = RotType.SKY
 

@@ -1,27 +1,24 @@
 # NOTE refCols refer to columns in the reference tables
 # NOTE refCols specify allowed keys in data ids used to look up calibrations
-# Some limited documentation can be found here: https://pipelines.lsst.io/v/foo/_modules/lsst/obs/base/mapping.html
+# Some limited documentation can be found here:
+#  https://pipelines.lsst.io/v/foo/_modules/lsst/obs/base/mapping.html
+#  https://pipelines.lsst.io/py-api/lsst.obs.base.CalibrationMapping.html
 
 
 needCalibRegistry: true
 camera: ../camera
 defaultLevel: Ccd
 
-# The default policy file is contained within the obs_base/policy directory of the stack. However, specific entried can be overridden by including them in here (and, indeed, some are mandatory as they don't have equivalents in the default files).
-# Even if it were possible and you **only** used the defaults in the obs_base/policy files you still need to include exposures, calibrations, and datasets so that it knows to refer to the defaults in obs_base.
 exposures:
   raw:
     python: lsst.afw.image.DecoratedImageU
     persistable: DecoratedImageU
-    # Removing some of the variables from this path can cause things to break
-    # Specifying the exposure time here seems to help match raw exposures with calibs
-    template: 'raw/%(dataType)s/%(dateObs)s/%(ccd)i/%(visit)i_%(expTime).5f.fits'
+    template: 'raw/%(dataType)s/%(dateObs)s/%(ccd)i/%(visit)i-%(expId)s.fits'
   calexp:
     template: 'calexp/calexp/%(dateObs)s/%(filter)s/calexp-%(expId)s.fits'
   postISRCCD:
     template: 'postISR/postISR/%(visit)07d/postISR-%(visit)07d_%(ccd)02d-%(filter)s.fits'
-  # deepCoadd_directWarps are warped calexps made by makeCoaddTempEx.py
-  deepCoadd_directWarp:
+  deepCoadd_directWarp:  # made by makeCoaddTempEx.py
     template: deepCoadd/%(filter)s/%(tract)d/%(patch)stempExp/v%(visit)d-f%(filter)s.fits
 
 datasets:
@@ -33,9 +30,7 @@ datasets:
     template: 'sci-results/src/%(dateObs)s/src-%(visit)04d-%(filter)s-%(ccd)02d.fits'
   calexpBackground:
     template: 'calexp/bkgd/%(visit)07d/calexp-%(visit)07d_%(ccd)02d-%(filter)s.fits'
-  # srcMatch is the catalogue of sources that matched with the reference catalogue
-  # srcMatch is produced during image calibration
-  srcMatch:
+  srcMatch:  # Sources that matched with the reference catalogue during image calibration
     persistable: BaseCatalog
     python: lsst.afw.table.BaseCatalog
     storage: FitsCatalogStorage
@@ -51,15 +46,28 @@ calibrations:
     obsTimeName: dateObs
     persistable: DecoratedImageF
     python: lsst.afw.image.DecoratedImageF
-    template: calib/bias/%(calibDate)s/%(ccd)i/%(expTime).5f.fits
+    template: calib/bias/%(calibDate)s/%(ccd)i.fits
     columns:
       - ccd
-      - expTime
     reference: raw
     refCols:
       - ccd
       - dateObs
-      - expTime
+  dark:
+    level: Ccd
+    tables: dark
+    filter: false
+    validRange: true
+    obsTimeName: dateObs
+    persistable: DecoratedImageF
+    python: lsst.afw.image.DecoratedImageF
+    template: calib/dark/%(calibDate)s/%(ccd)i.fits
+    columns:
+      - ccd
+    reference: raw
+    refCols:
+      - ccd
+      - dateObs
   flat:
     level: Ccd
     tables: flat
@@ -77,27 +85,3 @@ calibrations:
     python: lsst.afw.image.DecoratedImageF
     template: calib/flat/%(calibDate)s/%(ccd)i/%(filter)s.fits
     validRange: true
-
-  # The below are not currently used. Can they be removed?
-  dark:
-    level: Ccd
-    tables: dark
-    filter: false
-    columns:
-      - ccd
-      - dateObs
-    reference: raw
-    refCols:
-      - ccd
-      - dateObs
-      - expTime
-    obsTimeName: dateObs
-    persistable: DecoratedImageF
-    python: lsst.afw.image.DecoratedImageF
-    template: calib/dark/dark-%(ccd)02d-%(dateObs)s.fits
-    validRange: true
-  defects:
-    level: Ccd
-    persistable: DecoratedImageF
-    python: lsst.afw.image.DecoratedImageF
-    template: calib/defects/defects-%(ccd)02d-(calibDate)s.fits

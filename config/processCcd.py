@@ -20,7 +20,7 @@ configDir = os.path.join(getPackageDir("obs_huntsman"), "config")
 config.isr.load(os.path.join(configDir, "isr.py"))
 config.isr.doBias = True
 config.isr.doFlat = True
-config.isr.doDark = False
+config.isr.doDark = True
 
 # Characterise
 config.charImage.load(os.path.join(configDir, "characterise.py"))
